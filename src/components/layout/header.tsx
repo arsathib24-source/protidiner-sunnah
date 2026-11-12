@@ -2,9 +2,10 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { BookOpen, Bookmark, Menu, X, Library, Search } from 'lucide-react';
+import { BookOpen, Menu, X, Sparkles, LayoutGrid } from 'lucide-react';
 import { Locale } from '@/types/i18n';
 import { LanguageSwitcher } from './language-switcher';
+import { IslamicStarIcon } from '../ui/decorative';
 
 interface HeaderProps {
   locale: Locale;
@@ -19,33 +20,34 @@ export const Header: React.FC<HeaderProps> = ({ locale, dict }) => {
     { href: `/${locale}/library`, label: dict.nav.library },
     { href: `/${locale}/categories`, label: dict.nav.categories },
     { href: `/${locale}/bookmarks`, label: dict.nav.bookmarks },
+    { href: `/${locale}/design-system`, label: 'ডিজাইন সিস্টেম' },
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-islamic-ivory/95 dark:bg-islamic-forest-dark/95 backdrop-blur-md border-b border-islamic-forest/10 transition-colors">
-      <div className="container mx-auto flex items-center justify-between h-20 px-4 md:px-6">
-        {/* Brand Emblem & Titles */}
+    <header className="sticky top-0 z-40 bg-background/95 dark:bg-surface-dark/95 backdrop-blur-md border-b border-border transition-colors">
+      <div className="container mx-auto flex items-center justify-between h-20 px-4 sm:px-6">
+        {/* Brand Emblem & Logo */}
         <Link href={`/${locale}`} className="flex items-center gap-3.5 group">
-          <div className="w-12 h-12 rounded-xl bg-islamic-forest flex items-center justify-center text-islamic-gold shadow-islamic transition-transform group-hover:scale-105 border border-islamic-gold/30">
-            <BookOpen className="w-6 h-6 stroke-[2.2]" />
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-accent shadow-subtle border border-accent/40 transition-transform group-hover:scale-105">
+            <IslamicStarIcon className="w-6 h-6 text-accent" />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold text-xl md:text-2xl text-islamic-forest dark:text-islamic-ivory tracking-tight group-hover:text-islamic-deep transition-colors">
+            <span className="font-bold font-bengali-heading text-xl sm:text-2xl text-primary dark:text-background tracking-tight group-hover:text-secondary transition-colors">
               {dict.brand.name}
             </span>
-            <span className="text-xs text-islamic-gold-dark font-medium -mt-0.5">
+            <span className="text-xs text-accent-dark font-medium -mt-0.5">
               {dict.brand.tagline}
             </span>
           </div>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-7">
+        <nav className="hidden md:flex items-center gap-6 lg:gap-8">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-islamic-charcoal/80 dark:text-islamic-ivory/80 hover:text-islamic-forest dark:hover:text-islamic-gold transition-colors py-1"
+              className="text-sm font-medium text-text-muted hover:text-primary dark:hover:text-accent transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-accent after:transition-all"
             >
               {link.label}
             </Link>
@@ -56,30 +58,30 @@ export const Header: React.FC<HeaderProps> = ({ locale, dict }) => {
         <div className="flex items-center gap-3">
           <LanguageSwitcher currentLocale={locale} />
 
-          {/* Mobile Hamburger Button */}
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-islamic-forest dark:text-islamic-ivory hover:bg-islamic-forest/10"
-            aria-label="Toggle Navigation Menu"
+            className="md:hidden p-2 rounded-xl text-primary dark:text-background hover:bg-surface-muted transition-colors"
+            aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
-      {/* Gold Accent Line */}
-      <div className="h-[2px] bg-gradient-to-r from-transparent via-islamic-gold/60 to-transparent" />
+      {/* Decorative Gold Accent Border Line */}
+      <div className="h-[2px] bg-gradient-to-r from-transparent via-accent/70 to-transparent" />
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-islamic-ivory dark:bg-islamic-forest-dark border-b border-border px-6 py-5 shadow-islamic-lg animate-in slide-in-from-top duration-200">
-          <nav className="flex flex-col gap-3">
+        <div className="md:hidden bg-surface dark:bg-surface-dark border-b border-border px-6 py-5 shadow-card-hover animate-in slide-in-from-top duration-200">
+          <nav className="flex flex-col gap-2">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-base font-medium text-islamic-forest dark:text-islamic-ivory hover:text-islamic-gold py-2 border-b border-islamic-forest/5"
+                className="text-base font-medium font-bengali-heading text-primary dark:text-background hover:text-accent py-2.5 px-3 rounded-lg hover:bg-surface-muted transition-colors border-b border-border/40"
               >
                 {link.label}
               </Link>

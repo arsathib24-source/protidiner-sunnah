@@ -10,54 +10,73 @@ const config: Config = {
   theme: {
     container: {
       center: true,
-      padding: "1.5rem",
+      padding: {
+        DEFAULT: "1rem",
+        sm: "1.5rem",
+        lg: "2rem",
+      },
       screens: {
-        "2xl": "1280px",
+        "2xl": "1320px",
       },
     },
     extend: {
       colors: {
-        islamic: {
-          forest: {
-            DEFAULT: "#123F35",
-            light: "#184E42",
-            dark: "#0C2922",
-          },
-          deep: {
-            DEFAULT: "#1B5547",
-            light: "#236B59",
-            dark: "#144035",
-          },
-          gold: {
-            DEFAULT: "#D9BD7A",
-            light: "#E5CF98",
-            dark: "#B89B55",
-            subtle: "#F5ECD7",
-          },
-          ivory: {
-            DEFAULT: "#F7F1E5",
-            light: "#FCFAF6",
-            dark: "#EAE0CC",
-          },
-          charcoal: {
-            DEFAULT: "#26332F",
-            light: "#344540",
-            dark: "#18211E",
-          },
+        primary: {
+          DEFAULT: "#123F35",
+          light: "#185346",
+          dark: "#0B2720",
+          foreground: "#F7F1E5",
         },
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        secondary: {
+          DEFAULT: "#1B5547",
+          light: "#246F5D",
+          dark: "#133C32",
+          foreground: "#F7F1E5",
+        },
+        accent: {
+          DEFAULT: "#D9BD7A",
+          light: "#E4CF99",
+          dark: "#BCA05A",
+          subtle: "#F5ECD7",
+          foreground: "#123F35",
+        },
+        background: {
+          DEFAULT: "#F7F1E5",
+          light: "#FDFBF7",
+          dark: "#EAE0CC",
+        },
+        surface: {
+          DEFAULT: "#FFFFFF",
+          muted: "#EFE7D6",
+          dark: "#182723",
+        },
+        text: {
+          DEFAULT: "#26332F",
+          muted: "#526660",
+          light: "#829992",
+        },
         border: "var(--border)",
       },
       fontFamily: {
-        bengali: ["Hind Siliguri", "Noto Serif Bengali", "sans-serif"],
-        arabic: ["Amiri", "Noto Naskh Arabic", "serif"],
-        english: ["Inter", "Cinzel", "sans-serif"],
+        bengali: ["Noto Sans Bengali", "sans-serif"],
+        "bengali-heading": ["Hind Siliguri", "sans-serif"],
+        arabic: ["Amiri", "serif"],
+        english: ["Inter", "sans-serif"],
+      },
+      borderRadius: {
+        DEFAULT: "0.5rem",
+        md: "0.625rem",
+        lg: "0.75rem",
+        xl: "1rem",
+        "2xl": "1.25rem",
+        "3xl": "1.5rem",
       },
       boxShadow: {
-        islamic: "0 4px 20px -2px rgba(18, 63, 53, 0.08)",
-        "islamic-lg": "0 10px 30px -5px rgba(18, 63, 53, 0.15)",
-        "gold-glow": "0 0 15px rgba(217, 189, 122, 0.35)",
+        subtle: "0 1px 3px 0 rgba(18, 63, 53, 0.04), 0 1px 2px -1px rgba(18, 63, 53, 0.04)",
+        card: "0 4px 16px -2px rgba(18, 63, 53, 0.06), 0 2px 6px -1px rgba(18, 63, 53, 0.04)",
+        "card-hover": "0 12px 28px -4px rgba(18, 63, 53, 0.12), 0 4px 12px -2px rgba(18, 63, 53, 0.06)",
+        gold: "0 0 20px rgba(217, 189, 122, 0.35)",
+        "gold-border": "inset 0 0 0 1px rgba(217, 189, 122, 0.4)",
       },
     },
   },
