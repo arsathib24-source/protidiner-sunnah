@@ -1,222 +1,146 @@
 import React from 'react';
 import Link from 'next/link';
-import { BookOpen, Sparkles, ShieldCheck, Heart, ArrowRight, ArrowLeft, Smartphone, LayoutGrid } from 'lucide-react';
+import { 
+  BookOpen, Sparkles, ShieldCheck, Heart, ArrowRight, ArrowLeft, 
+  Smartphone, Search, Layers, CheckCircle2, Star, Clock, Users,
+  BookMarked, ScrollText
+} from 'lucide-react';
 import { Locale, SUPPORTED_LOCALES } from '@/types/i18n';
 import { getDictionary } from '@/lib/i18n/get-dictionary';
+import { CLASSICAL_BOOKS } from '@/lib/data/books';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
-import { ArabesqueDivider, SectionHeader, IslamicStarIcon } from '@/components/ui/decorative';
+import { SectionHeader, ArabesqueDivider, IslamicStarIcon } from '@/components/ui/decorative';
 import { EbookCard } from '@/components/ui/ebook-card';
 import { CategoryCard } from '@/components/ui/category-card';
+import { HomeSearch } from '@/components/home/home-search';
+import { TodaysSunnah } from '@/components/home/todays-sunnah';
 
 export default async function HomePage({
   params,
 }: {
   params: { lang: string };
 }) {
-  const lang = params.lang as Locale;
+  const lang = (params.lang || 'bn') as 'bn' | 'ar' | 'en';
   const dict = await getDictionary(lang);
   const isRTL = SUPPORTED_LOCALES[lang]?.dir === 'rtl';
 
-  // Authentic Classical Placeholder Books (Strictly verified classical sources)
-  const sampleBooks = [
-    {
-      id: 'riyad-us-saliheen',
-      slug: 'riyad-us-saliheen',
-      title: lang === 'bn' ? 'রিয়াদুস সলেহিন' : lang === 'ar' ? 'رياض الصالحين' : 'Riyad us-Saliheen',
-      author: lang === 'bn' ? 'ইমাম আন-নববী (রহ.)' : lang === 'ar' ? 'الإمام النووي رحمه الله' : 'Imam An-Nawawi (rah.)',
-      category: lang === 'bn' ? 'হাদিস সংকলন' : lang === 'ar' ? 'الحديث الشريف' : 'Hadith Collection',
-      readingTimeMins: 20,
-      chapterCount: 1896,
-      verifiedSource: 'দারুসসালাম প্রকাশনী',
-      description: lang === 'bn' 
-        ? 'দৈনন্দিন জীবনে আমলযোগ্য সহিহ হাদিসের সর্বজনগ্রাহ্য এক অনুপম সংকলন।'
-        : lang === 'ar'
-        ? 'دليل يومي شامل يجمع أمهات الأحاديث النبوية في الآداب والأخلاق والعبادات.'
-        : 'An essential compilation of authentic traditions guiding everyday conduct and morals.',
-    },
-    {
-      id: 'hisnul-muslim',
-      slug: 'hisnul-muslim',
-      title: lang === 'bn' ? 'হিসনুল মুসলিম' : lang === 'ar' ? 'حصن المسلم' : 'Hisnul Muslim',
-      author: lang === 'bn' ? 'সাঈদ ইবন ওয়াহফ আল-কাহত্বানী' : lang === 'ar' ? 'سعيد بن علي بن وهف القحطاني' : 'Saeed bin Ali al-Qahtani',
-      category: lang === 'bn' ? 'দোয়া ও জিকির' : lang === 'ar' ? 'الأذكار والدعاء' : 'Duas & Remembrances',
-      readingTimeMins: 8,
-      chapterCount: 132,
-      verifiedSource: 'মাকতাবাতুল মাআরিফ',
-      description: lang === 'bn'
-        ? 'কুরআন ও সহিহ হাদিস থেকে চয়নকৃত প্রাত্যহিক জীবনের প্রয়োজনীয় দোয়া ও জিকির।'
-        : lang === 'ar'
-        ? 'أذكار اليوم والليلة من القرآن والسنة الصحيحة لحصن المؤمن.'
-        : 'Fortress of the Muslim: Authentic supplications and daily dhikr from Quran and Sunnah.',
-    },
-    {
-      id: 'arbain-nawawi',
-      slug: 'arbain-nawawi',
-      title: lang === 'bn' ? 'চল্লিশ হাদিস (আল-আরবাঈন)' : lang === 'ar' ? 'الأربعون النووية' : 'An-Nawawi’s Forty Hadith',
-      author: lang === 'bn' ? 'ইমাম আন-নববী (রহ.)' : lang === 'ar' ? 'الإمام النووي رحمه الله' : 'Imam An-Nawawi (rah.)',
-      category: lang === 'bn' ? 'মৌলিক ইসলাম' : lang === 'ar' ? 'أصول الدين' : 'Foundations of Faith',
-      readingTimeMins: 6,
-      chapterCount: 42,
-      verifiedSource: 'তাহকিককৃত মূল পাঠ',
-      description: lang === 'bn'
-        ? 'ইসলাম ধর্মের মৌলিক স্তম্ভ ও মূলনীতি তুলে ধরা বিয়াল্লিশটি গুরুত্বপূর্ণ সহিহ হাদিস।'
-        : lang === 'ar'
-        ? 'جوامع الكلم وقواعد الدين الإسلامي الأساسية في اثنين وأربعين حديثًا نبويًا.'
-        : 'The forty-two pivotal prophetic statements embodying the comprehensive principles of Islam.',
-    },
+  const featuredBooks = CLASSICAL_BOOKS.filter((b) => b.isFeatured);
+  const popularBooks = CLASSICAL_BOOKS.filter((b) => b.isPopular);
+  const recentBooks = CLASSICAL_BOOKS.filter((b) => b.isRecent);
+
+  const categories = [
+    { slug: 'hadith', title: 'হাদিস শরিফ', description: 'রাসুলুল্লাহ ﷺ-এর প্রামাণিক বাণী ও সুন্নাহর বিশুদ্ধ সংকলন।', bookCount: 24, iconName: 'hadith' as const },
+    { slug: 'fiqh', title: 'ফিকহুস সুন্নাহ', description: 'দৈনন্দিন তাহরাত, সালাত, সিয়াম ও লেনদেন সংক্রান্ত শরয়ি বিধিবিধান।', bookCount: 18, iconName: 'fiqh' as const },
+    { slug: 'seerah', title: 'সিরাতুন নবী ﷺ', description: 'নবীজি ﷺ-এর পবিত্র জীবনচরিত ও ঐতিহাসিক ঘটনাবলি।', bookCount: 15, iconName: 'seerah' as const },
+    { slug: 'duas', title: 'দোয়া ও আজকার', description: 'সকাল-সন্ধ্যা, বিপদ-আপদ ও বিভিন্ন মুহূর্তের জন্য মাসনুন দোয়াসমূহ।', bookCount: 12, iconName: 'dua' as const },
+    { slug: 'aqeedah', title: 'আকিদা ও বিশ্বাস', description: 'আহলে সুন্নাত ওয়াল জামাআতের বিশুদ্ধ আকিদা ও তাওহিদের মূলনীতি।', bookCount: 9, iconName: 'aqeedah' as const },
+    { slug: 'tazkiyah', title: 'আখলাক ও শিষ্টাচার', description: 'অন্তর পরিশুদ্ধকরণ, যুহদ এবং উত্তম চরিত্র অর্জনের শিক্ষণীয় গ্রন্থ।', bookCount: 14, iconName: 'tazkiyah' as const },
   ];
 
   const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
 
   return (
     <div className="flex flex-col gap-16 md:gap-24 pb-20 bg-background bg-islamic-pattern">
-      {/* Hero Section */}
+      {/* =========================================================================
+          3. PREMIUM HERO SECTION
+         ========================================================================= */}
       <section className="relative overflow-hidden pt-12 md:pt-20 pb-16 bg-gradient-to-b from-background via-surface-muted/30 to-background border-b border-border">
-        {/* Subtle Golden Blur */}
+        {/* Decorative Golden Arch Blur */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-72 bg-accent/15 blur-3xl pointer-events-none rounded-full" />
 
         <div className="container mx-auto px-4 sm:px-6 relative z-10 text-center max-w-3xl">
           <Badge variant="accent" className="mb-6 shadow-subtle">
             <IslamicStarIcon className="w-3.5 h-3.5" />
-            <span>{dict.home.heroBadge}</span>
+            <span>ফ্রি ও উন্মুক্ত ইসলামিক পাঠাগার</span>
           </Badge>
 
+          {/* Requested Exact Heading */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold font-bengali-heading text-primary dark:text-background tracking-tight leading-[1.2] mb-6">
-            {dict.home.heroTitle}
+            সুন্নাহর আলোয় আলোকিত হোক প্রতিটি দিন
           </h1>
 
+          {/* Requested Exact Description */}
           <p className="text-base sm:text-lg text-text-muted leading-relaxed mb-10 max-w-2xl mx-auto font-bengali">
-            {dict.home.heroSubtitle}
+            রাসুলুল্লাহ ﷺ-এর দৈনন্দিন জীবনের সুন্নাহ জানুন, পড়ুন এবং নির্ভরযোগ্য জ্ঞান অর্জনের মাধ্যমে নিজের জীবনকে সাজান।
           </p>
 
+          {/* Requested Exact Buttons */}
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link href={`/${lang}/library`}>
-              <Button variant="primary" size="lg" className="gap-2.5">
-                <BookOpen className="w-5 h-5" />
-                <span>{dict.actions.exploreLibrary}</span>
+              <Button variant="primary" size="lg" className="gap-2.5 font-bengali-heading font-bold shadow-card">
+                <BookOpen className="w-5 h-5 text-accent" />
+                <span>ইবুক পড়ুন</span>
                 <ArrowIcon className="w-4 h-4" />
               </Button>
             </Link>
 
-            <Link href={`/${lang}/design-system`}>
-              <Button variant="outline" size="lg" className="gap-2">
-                <LayoutGrid className="w-4 h-4 text-accent-dark" />
-                <span>ডিজাইন সিস্টেম গ্যালারি</span>
+            <a href="#search-section">
+              <Button variant="accent" size="lg" className="gap-2 font-bengali-heading font-bold shadow-gold">
+                <Search className="w-4 h-4" />
+                <span>সুন্নাহ খুঁজুন</span>
               </Button>
-            </Link>
+            </a>
+          </div>
+
+          {/* Value Micro-Pills */}
+          <div className="flex flex-wrap items-center justify-center gap-6 mt-12 pt-8 border-t border-border/60 text-xs text-text-muted">
+            <span className="flex items-center gap-1.5 font-medium">
+              <ShieldCheck className="w-4 h-4 text-accent-dark" />
+              <span>১০০% যাচাইকৃত ও প্রামাণ্য উৎস</span>
+            </span>
+            <span className="flex items-center gap-1.5 font-medium">
+              <Heart className="w-4 h-4 text-accent-dark" />
+              <span>সবার জন্য আজীবন সম্পূর্ণ ফ্রি</span>
+            </span>
+            <span className="flex items-center gap-1.5 font-medium">
+              <Smartphone className="w-4 h-4 text-accent-dark" />
+              <span>মোবাইল ও পিসিতে আরামদায়ক রিডার</span>
+            </span>
           </div>
         </div>
       </section>
 
-      {/* Daily Sunnah Spotlight Card */}
-      <section id="daily-sunnah" className="container mx-auto px-4 sm:px-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="relative rounded-3xl bg-gradient-to-br from-primary via-primary-light to-secondary text-primary-foreground p-8 md:p-12 shadow-card-hover border-2 border-accent/40 overflow-hidden">
-            {/* Background Rosette */}
-            <div className="absolute right-0 bottom-0 opacity-10 pointer-events-none translate-x-10 translate-y-10">
-              <IslamicStarIcon className="w-64 h-64 text-accent" />
-            </div>
-
-            <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-primary-light">
-              <div className="flex items-center gap-2.5 text-accent">
-                <Sparkles className="w-5 h-5" />
-                <span className="text-xs uppercase font-bold tracking-wider">
-                  {dict.home.dailySunnahTitle}
-                </span>
-              </div>
-              <span className="text-xs text-background/80 bg-primary-dark/70 px-3.5 py-1 rounded-full border border-accent/30 font-mono">
-                {dict.home.dailySunnahSource}
-              </span>
-            </div>
-
-            <blockquote className="relative z-10 text-xl sm:text-2xl md:text-3xl font-medium font-bengali-heading leading-relaxed text-background mb-6">
-              {dict.home.dailySunnahText}
-            </blockquote>
-
-            <div className="relative z-10 flex items-center justify-between pt-4 text-xs text-accent-light">
-              <span className="flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-accent" />
-                সহিহ সনদে বর্ণিত প্রামাণিক বাণী
-              </span>
-              <span className="font-semibold text-accent">Protidiner Sunnah</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Value Pillars */}
+      {/* =========================================================================
+          4. SEARCH BAR SECTION
+         ========================================================================= */}
       <section className="container mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="p-6">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-4 border border-primary/20">
-              <ShieldCheck className="w-6 h-6 text-primary" />
-            </div>
-            <h3 className="text-lg font-bold font-bengali-heading text-primary dark:text-background mb-2">
-              ১০০% প্রামাণিক ও যাচাইকৃত
-            </h3>
-            <p className="text-sm text-text-muted leading-relaxed font-bengali">
-              কুরআন ও সুন্নাহর আলোকে বিশুদ্ধ উৎস এবং নির্ভরযোগ্য সনদের ভিত্তিতে কিতাবসমূহ সংকলিত ও পর্যালোচিত।
-            </p>
-          </Card>
-
-          <Card className="p-6">
-            <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center text-accent-dark mb-4 border border-accent/30">
-              <Heart className="w-6 h-6 text-accent-dark" />
-            </div>
-            <h3 className="text-lg font-bold font-bengali-heading text-primary dark:text-background mb-2">
-              সবার জন্য সম্পূর্ণ বিনামূল্যে
-            </h3>
-            <p className="text-sm text-text-muted leading-relaxed font-bengali">
-              কোনো সাবস্ক্রিপশন ফি বা বাণিজ্যিক বিজ্ঞাপন ছাড়াই যে কেউ যেকোনো স্থান থেকে সহজে পড়তে পারবেন।
-            </p>
-          </Card>
-
-          <Card className="p-6">
-            <div className="w-12 h-12 rounded-xl bg-secondary/15 flex items-center justify-center text-secondary mb-4 border border-secondary/25">
-              <Smartphone className="w-6 h-6 text-secondary" />
-            </div>
-            <h3 className="text-lg font-bold font-bengali-heading text-primary dark:text-background mb-2">
-              আধুনিক আরামদায়ক রিডার
-            </h3>
-            <p className="text-sm text-text-muted leading-relaxed font-bengali">
-              ফন্ট সাইজ পরিবর্তন, আইভরি-সেপিয়া-ডার্ক থিম এবং বুকমার্কিং সুবিধার সাথে চোখের জন্য আরামদায়ক পাঠ অভিজ্ঞতা।
-            </p>
-          </Card>
-        </div>
+        <HomeSearch locale={lang} isRTL={isRTL} />
       </section>
 
-      {/* Featured Books Preview */}
+      {/* =========================================================================
+          5. FEATURED EBOOKS
+         ========================================================================= */}
       <section className="container mx-auto px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
           <div>
             <Badge variant="accent" size="sm" className="mb-2">নির্বাচিত কিতাব</Badge>
             <h2 className="text-2xl sm:text-3xl font-bold font-bengali-heading text-primary dark:text-background">
-              {dict.home.featuredBooksTitle}
+              নির্বাচিত ও মৌলিক গ্রন্থাবলি
             </h2>
             <p className="text-sm text-text-muted mt-1 font-bengali">
-              {dict.home.featuredBooksSubtitle}
+              ইসলামের মৌলিক স্তম্ভ ও প্রাত্যহিক সুন্নাহ চর্চার প্রধানতম নির্ভরযোগ্য সংকলন
             </p>
           </div>
           <Link href={`/${lang}/library`}>
             <Button variant="ghost" size="sm" className="gap-1.5 text-primary font-semibold">
-              <span>{dict.home.viewAll}</span>
+              <span>সকল কিতাব দেখুন</span>
               <ArrowIcon className="w-4 h-4" />
             </Button>
           </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sampleBooks.map((book) => (
+          {featuredBooks.map((book) => (
             <EbookCard
               key={book.id}
               id={book.id}
               slug={book.slug}
-              title={book.title}
-              author={book.author}
-              category={book.category}
-              description={book.description}
+              title={book.title[lang]}
+              author={book.author[lang]}
+              category={book.category[lang]}
+              description={book.description[lang]}
               chapterCount={book.chapterCount}
               readingTimeMins={book.readingTimeMins}
               verifiedSource={book.verifiedSource}
@@ -227,47 +151,212 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* Categories Showcase */}
+      {/* =========================================================================
+          6. BROWSE CATEGORIES
+         ========================================================================= */}
       <section className="container mx-auto px-4 sm:px-6">
         <SectionHeader
           badge="বিষয়ভিত্তিক পাঠাগার"
-          title={dict.home.categoriesTitle}
-          subtitle={dict.home.categoriesSubtitle}
+          title="ইসলামের মৌলিক বিষয়সমূহ"
+          subtitle="হাদিস, ফিকহ, সিরাত ও দোয়ার মতো গুরুত্বপূর্ণ শাখাসমূহে সহজে গ্রন্থ অনুসন্ধান করুন"
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <CategoryCard
-            id="cat-hadith"
-            slug="hadith"
-            title="হাদিস শরিফ"
-            description="রাসুলুল্লাহ ﷺ-এর প্রামাণিক বাণী ও সুন্নাহর বিশুদ্ধ সংকলন।"
-            bookCount={24}
-            iconName="hadith"
-            lang={lang}
-            isRTL={isRTL}
-          />
-          <CategoryCard
-            id="cat-fiqh"
-            slug="fiqh"
-            title="ফিকহুস সুন্নাহ"
-            description="দৈনন্দিন তাহরাত, সালাত, সিয়াম ও লেনদেন সংক্রান্ত শরয়ি বিধিবিধান।"
-            bookCount={18}
-            iconName="fiqh"
-            lang={lang}
-            isRTL={isRTL}
-          />
-          <CategoryCard
-            id="cat-seerah"
-            slug="seerah"
-            title="সিরাতুন নবী ﷺ"
-            description="নবীজি ﷺ-এর পবিত্র জীবনচরিত ও ঐতিহাসিক ঘটনাবলি।"
-            bookCount={15}
-            iconName="seerah"
-            lang={lang}
-            isRTL={isRTL}
-          />
+          {categories.map((cat) => (
+            <CategoryCard
+              key={cat.slug}
+              id={cat.slug}
+              slug={cat.slug}
+              title={cat.title}
+              description={cat.description}
+              bookCount={cat.bookCount}
+              iconName={cat.iconName}
+              lang={lang}
+              isRTL={isRTL}
+            />
+          ))}
         </div>
       </section>
+
+      {/* =========================================================================
+          7. TODAY'S SUNNAH
+         ========================================================================= */}
+      <section className="container mx-auto px-4 sm:px-6">
+        <TodaysSunnah locale={lang} />
+      </section>
+
+      {/* =========================================================================
+          8. POPULAR EBOOKS
+         ========================================================================= */}
+      <section className="container mx-auto px-4 sm:px-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+          <div>
+            <Badge variant="accent" size="sm" className="mb-2">সর্বাধিক পঠিত</Badge>
+            <h2 className="text-2xl sm:text-3xl font-bold font-bengali-heading text-primary dark:text-background">
+              জনপ্রিয় কিতাবসমূহ
+            </h2>
+            <p className="text-sm text-text-muted mt-1 font-bengali">
+              পাঠক সমাজে সর্বাধিক সমাদৃত ও পঠিত প্রামাণ্য ইসলামিক সাহিত্য
+            </p>
+          </div>
+          <Link href={`/${lang}/library?sort=popular`}>
+            <Button variant="ghost" size="sm" className="gap-1.5 text-primary font-semibold">
+              <span>সব দেখুন</span>
+              <ArrowIcon className="w-4 h-4" />
+            </Button>
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {popularBooks.slice(0, 4).map((book) => (
+            <EbookCard
+              key={book.id}
+              id={book.id}
+              slug={book.slug}
+              title={book.title[lang]}
+              author={book.author[lang]}
+              category={book.category[lang]}
+              chapterCount={book.chapterCount}
+              readingTimeMins={book.readingTimeMins}
+              verifiedSource={book.verifiedSource}
+              lang={lang}
+              isRTL={isRTL}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* =========================================================================
+          9. RECENTLY ADDED EBOOKS
+         ========================================================================= */}
+      <section className="container mx-auto px-4 sm:px-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+          <div>
+            <Badge variant="primary" size="sm" className="mb-2">নতুন সংযোজন</Badge>
+            <h2 className="text-2xl sm:text-3xl font-bold font-bengali-heading text-primary dark:text-background">
+              সম্প্রতি যুক্ত হওয়া কিতাব
+            </h2>
+            <p className="text-sm text-text-muted mt-1 font-bengali">
+              যাচাই-বাছাই সম্পন্ন হওয়ার পর লাইব্রেরিতে অন্তর্ভুক্ত হওয়া সর্বশেষ কিতাবসমূহ
+            </p>
+          </div>
+          <Link href={`/${lang}/library?sort=newest`}>
+            <Button variant="ghost" size="sm" className="gap-1.5 text-primary font-semibold">
+              <span>লাইব্রেরি দেখুন</span>
+              <ArrowIcon className="w-4 h-4" />
+            </Button>
+          </Link>
+        </div>
+
+        <div className="space-y-4">
+          {recentBooks.map((book) => (
+            <EbookCard
+              key={book.id}
+              id={book.id}
+              slug={book.slug}
+              title={book.title[lang]}
+              author={book.author[lang]}
+              category={book.category[lang]}
+              description={book.description[lang]}
+              chapterCount={book.chapterCount}
+              readingTimeMins={book.readingTimeMins}
+              verifiedSource={book.verifiedSource}
+              layout="horizontal"
+              lang={lang}
+              isRTL={isRTL}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* =========================================================================
+          10. ABOUT PROTIDINER SUNNAH
+         ========================================================================= */}
+      <section className="container mx-auto px-4 sm:px-6">
+        <div className="rounded-3xl bg-surface border border-border/80 shadow-card p-8 sm:p-14">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div className="space-y-5">
+              <Badge variant="accent">আমাদের লক্ষ্য ও নীতি</Badge>
+              <h2 className="text-3xl sm:text-4xl font-bold font-bengali-heading text-primary leading-tight">
+                প্রতিদিনের সুন্নাহ সম্পর্কে
+              </h2>
+              <p className="text-base text-text-muted leading-relaxed font-bengali">
+                <strong>প্রতিদিনের সুন্নাহ</strong> একটি অলাভজনক ও উন্মুক্ত দ্বীনি উদ্যোগ। আমাদের মূল উদ্দেশ্য হলো রাসুলুল্লাহ ﷺ-এর জীবন, বিশুদ্ধ সুন্নাহ এবং সালাফদের প্রামাণ্য কিতাবসমূহকে বাংলা, আরবি ও ইংরেজি ভাষায় সকলের কাছে সম্পূর্ণ বিনামূল্যে পৌঁছে দেওয়া।
+              </p>
+
+              <div className="space-y-3 pt-2">
+                <div className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-accent/20 text-accent-dark flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <CheckCircle2 className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-primary">সনদ ও সূত্র কঠোরভাবে পরীক্ষিত</h4>
+                    <p className="text-xs text-text-muted mt-0.5">কোনো জাল, বানোয়াট বা ভিত্তিহীন হাদিস আমাদের প্ল্যাটফর্মে স্থান পায় না।</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-accent/20 text-accent-dark flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <CheckCircle2 className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-primary">কোনো প্রকার বাণিজ্যিক বিজ্ঞাপন নেই</h4>
+                    <p className="text-xs text-text-muted mt-0.5">পড়ার সময় মনোযোগ অক্ষুণ্ণ রাখতে সম্পূর্ণ বিজ্ঞাপনমুক্ত ও পরিচ্ছন্ন পাঠ অভিজ্ঞতা।</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-accent/20 text-accent-dark flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <CheckCircle2 className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-primary">যেকোনো ডিভাইসে চোখের জন্য আরামদায়ক</h4>
+                    <p className="text-xs text-text-muted mt-0.5">আইভরি, সেপিয়া এবং ডার্ক মোডের সাথে সুবিধাজনক ফন্ট পরিবর্তন অপশন।</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 flex flex-wrap items-center gap-3">
+                <Link href={`/${lang}/library`}>
+                  <Button variant="primary" size="md">
+                    <span>লাইব্রেরি এক্সপ্লোর করুন</span>
+                    <ArrowIcon className="w-4 h-4 ms-2" />
+                  </Button>
+                </Link>
+                <Link href={`/${lang}/design-system`}>
+                  <Button variant="outline" size="md">
+                    <span>ডিজাইন সিস্টেম দেখুন</span>
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            {/* Decorative Card Illustration */}
+            <div className="relative">
+              <div className="rounded-2xl bg-gradient-to-br from-primary via-primary-light to-secondary p-8 text-primary-foreground border-2 border-accent/40 shadow-card-hover space-y-6">
+                <div className="flex items-center justify-between pb-4 border-b border-primary-light">
+                  <IslamicStarIcon className="w-8 h-8 text-accent" />
+                  <span className="text-xs font-mono text-accent">EST. 2026</span>
+                </div>
+                <div className="space-y-3">
+                  <span className="text-xs text-accent-light uppercase tracking-widest font-bold">
+                    আমাদের স্লোগান
+                  </span>
+                  <h3 className="text-2xl sm:text-3xl font-bold font-bengali-heading text-background leading-tight">
+                    «রাসুলুল্লাহ ﷺ-এর আদর্শে প্রতিদিন»
+                  </h3>
+                  <p className="text-sm text-background/85 leading-relaxed font-bengali pt-2">
+                    «তোমাদের মাঝে আমি দুটি জিনিস রেখে যাচ্ছি; যতক্ষণ তোমরা এ দুটিকে আঁকড়ে ধরে রাখবে, ততক্ষণ কখনো পথভ্রষ্ট হবে না: আল্লাহর কিতাব এবং তাঁর রাসুলের সুন্নাহ।»
+                  </p>
+                  <span className="text-xs text-accent-light block pt-1">[মুয়াত্তা ইমাম মালিক: ৩৩৩৮]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 11. Footer is rendered automatically by layout.tsx */}
     </div>
   );
 }
