@@ -1,5 +1,8 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { BookOpen, ShieldCheck, Heart, Sparkles } from 'lucide-react';
 import { Locale } from '@/types/i18n';
 import { IslamicStarIcon } from '../ui/decorative';
@@ -10,6 +13,12 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ locale, dict }) => {
+  const pathname = usePathname();
+
+  // Suppress public footer inside dedicated admin console
+  if (pathname?.includes('/admin')) {
+    return null;
+  }
   return (
     <footer className="bg-primary text-primary-foreground pt-16 pb-12 border-t-2 border-accent/40 relative overflow-hidden">
       {/* Background Decorative Star Motif */}

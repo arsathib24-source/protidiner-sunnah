@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { BookOpen, Menu, X, Sparkles, Search } from 'lucide-react';
 import { Locale } from '@/types/i18n';
 import { LanguageSwitcher } from './language-switcher';
@@ -14,7 +15,13 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ locale, dict }) => {
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Suppress public header inside dedicated admin console
+  if (pathname?.includes('/admin')) {
+    return null;
+  }
 
   const navLinks = [
     { href: `/${locale}`, label: dict.nav.home },
