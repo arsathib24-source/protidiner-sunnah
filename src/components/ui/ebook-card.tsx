@@ -99,7 +99,7 @@ export const EbookCard: React.FC<EbookCardProps> = ({
               </button>
             </div>
 
-            <Link href={`/${lang}/reader/${slug}`}>
+            <Link href={`/${lang}/ebooks/${slug}`}>
               <h3 className="text-lg font-bold font-bengali-heading text-primary dark:text-background group-hover:text-secondary transition-colors line-clamp-1">
                 {title}
               </h3>
@@ -125,7 +125,7 @@ export const EbookCard: React.FC<EbookCardProps> = ({
               </span>
             </div>
 
-            <Link href={`/${lang}/reader/${slug}`}>
+            <Link href={`/${lang}/read/${slug}`}>
               <Button variant="ghost" size="sm" className="h-7 text-xs gap-1 font-semibold text-primary">
                 <span>{lang === 'bn' ? 'পড়ুন' : lang === 'ar' ? 'اقرأ' : 'Read'}</span>
                 <ArrowIcon className="w-3 h-3" />
@@ -204,7 +204,7 @@ export const EbookCard: React.FC<EbookCardProps> = ({
       {/* Card Body */}
       <div className="p-5 flex-1 flex flex-col justify-between">
         <div>
-          <Link href={`/${lang}/reader/${slug}`}>
+          <Link href={`/${lang}/ebooks/${slug}`}>
             <h3 className="text-lg font-bold font-bengali-heading text-primary dark:text-background group-hover:text-secondary transition-colors line-clamp-1">
               {title}
             </h3>
@@ -231,7 +231,7 @@ export const EbookCard: React.FC<EbookCardProps> = ({
             </span>
           </div>
 
-          <Link href={`/${lang}/reader/${slug}`}>
+          <Link href={`/${lang}/read/${slug}`}>
             <Button variant="primary" size="sm" className="gap-1.5 h-8">
               <span>{lang === 'bn' ? 'পড়ুন' : lang === 'ar' ? 'اقرأ' : 'Read'}</span>
               <ArrowIcon className="w-3.5 h-3.5" />

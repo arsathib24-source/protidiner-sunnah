@@ -110,7 +110,7 @@ export default async function EbookDetailPage({
 
               {/* Primary Read Online CTA */}
               <div className="w-full max-w-xs space-y-3">
-                <Link href={`/${lang}/reader/${book.slug}`} className="block w-full">
+                <Link href={`/${lang}/read/${book.slug}`} className="block w-full">
                   <Button variant="primary" size="lg" className="w-full gap-2 text-base font-bengali-heading font-bold shadow-card">
                     <BookOpen className="w-5 h-5 text-accent" />
                     <span>{lang === 'bn' ? 'অনলাইনে পড়ুন' : lang === 'ar' ? 'اقرأ الكتاب الآن' : 'Read Online'}</span>
@@ -271,7 +271,7 @@ export default async function EbookDetailPage({
                     <span>{chapter.durationMins} মি.</span>
                   </span>
 
-                  <Link href={`/${lang}/reader/${book.slug}`}>
+                  <Link href={`/${lang}/read/${book.slug}?chapter=${chapter.number}`}>
                     <Button variant="ghost" size="sm" className="h-8 text-xs gap-1 font-semibold text-primary">
                       <span>পড়ুন</span>
                       <ArrowIcon className="w-3 h-3" />
@@ -284,7 +284,7 @@ export default async function EbookDetailPage({
 
           {/* Bottom Read Online Prompt */}
           <div className="text-center pt-4">
-            <Link href={`/${lang}/reader/${book.slug}`}>
+            <Link href={`/${lang}/read/${book.slug}`}>
               <Button variant="primary" size="lg" className="gap-2 font-bengali-heading font-bold shadow-card">
                 <BookOpen className="w-5 h-5 text-accent" />
                 <span>প্রথম অধ্যায় থেকে পড়া শুরু করুন</span>

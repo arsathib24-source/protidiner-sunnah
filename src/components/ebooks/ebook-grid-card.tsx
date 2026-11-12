@@ -101,7 +101,7 @@ export const EbookGridCard: React.FC<EbookGridCardProps> = ({
           </div>
 
           {/* Read Online Button */}
-          <Link href={`/${locale}/ebooks/${book.slug}`}>
+          <Link href={`/${locale}/read/${book.slug}`}>
             <Button variant="primary" size="sm" className="gap-1.5 h-9 font-bengali-heading font-semibold shadow-subtle">
               <span>{locale === 'bn' ? 'অনলাইনে পড়ুন' : locale === 'ar' ? 'اقرأ الآن' : 'Read Online'}</span>
               <ArrowIcon className="w-3.5 h-3.5" />
