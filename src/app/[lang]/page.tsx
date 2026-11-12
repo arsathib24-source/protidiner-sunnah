@@ -43,11 +43,8 @@ export default async function HomePage({
 
   return (
     <div className="flex flex-col gap-16 md:gap-24 pb-20 bg-background bg-islamic-pattern">
-      {/* =========================================================================
-          3. PREMIUM HERO SECTION
-         ========================================================================= */}
+      {/* 3. PREMIUM HERO SECTION */}
       <section className="relative overflow-hidden pt-12 md:pt-20 pb-16 bg-gradient-to-b from-background via-surface-muted/30 to-background border-b border-border">
-        {/* Decorative Golden Arch Blur */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-72 bg-accent/15 blur-3xl pointer-events-none rounded-full" />
 
         <div className="container mx-auto px-4 sm:px-6 relative z-10 text-center max-w-3xl">
@@ -56,19 +53,16 @@ export default async function HomePage({
             <span>ফ্রি ও উন্মুক্ত ইসলামিক পাঠাগার</span>
           </Badge>
 
-          {/* Requested Exact Heading */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold font-bengali-heading text-primary dark:text-background tracking-tight leading-[1.2] mb-6">
             সুন্নাহর আলোয় আলোকিত হোক প্রতিটি দিন
           </h1>
 
-          {/* Requested Exact Description */}
           <p className="text-base sm:text-lg text-text-muted leading-relaxed mb-10 max-w-2xl mx-auto font-bengali">
             রাসুলুল্লাহ ﷺ-এর দৈনন্দিন জীবনের সুন্নাহ জানুন, পড়ুন এবং নির্ভরযোগ্য জ্ঞান অর্জনের মাধ্যমে নিজের জীবনকে সাজান।
           </p>
 
-          {/* Requested Exact Buttons */}
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href={`/${lang}/library`}>
+            <Link href={`/${lang}/ebooks`}>
               <Button variant="primary" size="lg" className="gap-2.5 font-bengali-heading font-bold shadow-card">
                 <BookOpen className="w-5 h-5 text-accent" />
                 <span>ইবুক পড়ুন</span>
@@ -84,7 +78,6 @@ export default async function HomePage({
             </a>
           </div>
 
-          {/* Value Micro-Pills */}
           <div className="flex flex-wrap items-center justify-center gap-6 mt-12 pt-8 border-t border-border/60 text-xs text-text-muted">
             <span className="flex items-center gap-1.5 font-medium">
               <ShieldCheck className="w-4 h-4 text-accent-dark" />
@@ -102,16 +95,12 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* =========================================================================
-          4. SEARCH BAR SECTION
-         ========================================================================= */}
+      {/* 4. SEARCH BAR SECTION */}
       <section className="container mx-auto px-4 sm:px-6">
         <HomeSearch locale={lang} isRTL={isRTL} />
       </section>
 
-      {/* =========================================================================
-          5. FEATURED EBOOKS
-         ========================================================================= */}
+      {/* 5. FEATURED EBOOKS */}
       <section className="container mx-auto px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
           <div>
@@ -123,7 +112,7 @@ export default async function HomePage({
               ইসলামের মৌলিক স্তম্ভ ও প্রাত্যহিক সুন্নাহ চর্চার প্রধানতম নির্ভরযোগ্য সংকলন
             </p>
           </div>
-          <Link href={`/${lang}/library`}>
+          <Link href={`/${lang}/ebooks`}>
             <Button variant="ghost" size="sm" className="gap-1.5 text-primary font-semibold">
               <span>সকল কিতাব দেখুন</span>
               <ArrowIcon className="w-4 h-4" />
@@ -151,9 +140,7 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* =========================================================================
-          6. BROWSE CATEGORIES
-         ========================================================================= */}
+      {/* 6. BROWSE CATEGORIES */}
       <section className="container mx-auto px-4 sm:px-6">
         <SectionHeader
           badge="বিষয়ভিত্তিক পাঠাগার"
@@ -178,16 +165,12 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* =========================================================================
-          7. TODAY'S SUNNAH
-         ========================================================================= */}
+      {/* 7. TODAY'S SUNNAH */}
       <section className="container mx-auto px-4 sm:px-6">
         <TodaysSunnah locale={lang} />
       </section>
 
-      {/* =========================================================================
-          8. POPULAR EBOOKS
-         ========================================================================= */}
+      {/* 8. POPULAR EBOOKS */}
       <section className="container mx-auto px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
           <div>
@@ -199,7 +182,7 @@ export default async function HomePage({
               পাঠক সমাজে সর্বাধিক সমাদৃত ও পঠিত প্রামাণ্য ইসলামিক সাহিত্য
             </p>
           </div>
-          <Link href={`/${lang}/library?sort=popular`}>
+          <Link href={`/${lang}/ebooks?sort=popular`}>
             <Button variant="ghost" size="sm" className="gap-1.5 text-primary font-semibold">
               <span>সব দেখুন</span>
               <ArrowIcon className="w-4 h-4" />
@@ -226,9 +209,7 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* =========================================================================
-          9. RECENTLY ADDED EBOOKS
-         ========================================================================= */}
+      {/* 9. RECENTLY ADDED EBOOKS */}
       <section className="container mx-auto px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
           <div>
@@ -240,7 +221,7 @@ export default async function HomePage({
               যাচাই-বাছাই সম্পন্ন হওয়ার পর লাইব্রেরিতে অন্তর্ভুক্ত হওয়া সর্বশেষ কিতাবসমূহ
             </p>
           </div>
-          <Link href={`/${lang}/library?sort=newest`}>
+          <Link href={`/${lang}/ebooks?sort=newest`}>
             <Button variant="ghost" size="sm" className="gap-1.5 text-primary font-semibold">
               <span>লাইব্রেরি দেখুন</span>
               <ArrowIcon className="w-4 h-4" />
@@ -269,9 +250,7 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* =========================================================================
-          10. ABOUT PROTIDINER SUNNAH
-         ========================================================================= */}
+      {/* 10. ABOUT PROTIDINER SUNNAH */}
       <section className="container mx-auto px-4 sm:px-6">
         <div className="rounded-3xl bg-surface border border-border/80 shadow-card p-8 sm:p-14">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -317,7 +296,7 @@ export default async function HomePage({
               </div>
 
               <div className="pt-4 flex flex-wrap items-center gap-3">
-                <Link href={`/${lang}/library`}>
+                <Link href={`/${lang}/ebooks`}>
                   <Button variant="primary" size="md">
                     <span>লাইব্রেরি এক্সপ্লোর করুন</span>
                     <ArrowIcon className="w-4 h-4 ms-2" />
@@ -355,8 +334,6 @@ export default async function HomePage({
           </div>
         </div>
       </section>
-
-      {/* 11. Footer is rendered automatically by layout.tsx */}
     </div>
   );
 }

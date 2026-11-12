@@ -18,7 +18,7 @@ export const Header: React.FC<HeaderProps> = ({ locale, dict }) => {
 
   const navLinks = [
     { href: `/${locale}`, label: dict.nav.home },
-    { href: `/${locale}/library`, label: dict.nav.library },
+    { href: `/${locale}/ebooks`, label: 'ই-বুক লাইব্রেরি' },
     { href: `/${locale}/categories`, label: dict.nav.categories },
     { href: `/${locale}#todays-sunnah`, label: 'আজকের সুন্নাহ' },
     { href: `/${locale}/bookmarks`, label: dict.nav.bookmarks },
@@ -29,7 +29,7 @@ export const Header: React.FC<HeaderProps> = ({ locale, dict }) => {
     <div className="sticky top-0 z-40">
       {/* 1. Announcement Bar */}
       <AnnouncementBar
-        linkHref={`/${locale}/library`}
+        linkHref={`/${locale}/ebooks`}
         linkText={locale === 'bn' ? 'লাইব্রেরি দেখুন' : locale === 'ar' ? 'تصفح المكتبة' : 'Browse Library'}
         message={
           locale === 'bn'

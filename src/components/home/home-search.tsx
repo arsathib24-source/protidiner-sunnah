@@ -18,7 +18,7 @@ export const HomeSearch: React.FC<HomeSearchProps> = ({ locale, isRTL = false })
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim()) return;
-    router.push(`/${locale}/library?q=${encodeURIComponent(query.trim())}`);
+    router.push(`/${locale}/ebooks?q=${encodeURIComponent(query.trim())}`);
   };
 
   const quickSearches = [
@@ -65,7 +65,7 @@ export const HomeSearch: React.FC<HomeSearchProps> = ({ locale, isRTL = false })
           <button
             key={item.label}
             type="button"
-            onClick={() => router.push(`/${locale}/library?q=${encodeURIComponent(item.q)}`)}
+            onClick={() => router.push(`/${locale}/ebooks?q=${encodeURIComponent(item.q)}`)}
             className="px-3 py-1 rounded-full bg-surface border border-border/80 text-text-muted hover:text-primary hover:border-accent hover:bg-surface-muted transition-colors font-medium shadow-subtle"
           >
             {item.label}
