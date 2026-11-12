@@ -1,0 +1,59 @@
+{
+  "brand": {
+    "name": "Daily Sunnah",
+    "englishName": "Daily Sunnah",
+    "tagline": "Daily in the footsteps of the Messenger ﷺ",
+    "description": "A premium, open-access Islamic digital library dedicated to authentic books and Sunnah teachings for readers worldwide."
+  },
+  "nav": {
+    "home": "Home",
+    "library": "Library",
+    "categories": "Categories",
+    "bookmarks": "Bookmarks",
+    "about": "About",
+    "admin": "Admin Dashboard"
+  },
+  "actions": {
+    "readNow": "Read Now",
+    "exploreLibrary": "Explore Library",
+    "searchPlaceholder": "Search by book title, author, or topic...",
+    "search": "Search",
+    "filter": "Filter",
+    "allCategories": "All Categories",
+    "bookmark": "Bookmark",
+    "bookmarked": "Bookmarked",
+    "share": "Share",
+    "close": "Close",
+    "back": "Back",
+    "nextChapter": "Next Chapter",
+    "prevChapter": "Previous Chapter"
+  },
+  "home": {
+    "heroBadge": "Free & Open Islamic Digital Library",
+    "heroTitle": "Illuminating Everyday Life with Authentic Knowledge",
+    "heroSubtitle": "Read authentic Islamic ebooks written by respected scholars completely free online on any device.",
+    "dailySunnahTitle": "Daily Sunnah & Guidance",
+    "dailySunnahText": "«Whoever revives my Sunnah has loved me, and whoever loves me will be with me in Paradise.»",
+    "dailySunnahSource": "[Tirmidhi: 2678 - Hasan/Sahih]",
+    "featuredBooksTitle": "Featured Books",
+    "featuredBooksSubtitle": "Carefully reviewed and foundational texts for students and general readers",
+    "categoriesTitle": "Browse by Category",
+    "categoriesSubtitle": "Find verified literature across essential Islamic disciplines",
+    "viewAll": "View All"
+  },
+  "reader": {
+    "tableOfContents": "Table of Contents",
+    "fontSize": "Font Size",
+    "theme": "Reader Theme",
+    "themeIvory": "Ivory (Default)",
+    "themeSepia": "Sepia (Day)",
+    "themeCharcoal": "Charcoal (Night)",
+    "readingProgress": "Reading Progress",
+    "estimatedRead": "min read"
+  },
+  "footer": {
+    "quote": "«Convey from me, even if it is a single verse.» [Sahih al-Bukhari]",
+    "rights": "All resources are made openly available for educational and non-commercial benefit.",
+    "disclaimer": "All texts and references are strictly reviewed for authenticity. No unverified religious content is published."
+  }
+}

@@ -1,0 +1,63 @@
+import React from 'react';
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import { Locale, SUPPORTED_LOCALES } from '@/types/i18n';
+import { getDictionary } from '@/lib/i18n/get-dictionary';
+import { Header } from '@/components/layout/header';
+import { Footer } from '@/components/layout/footer';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { lang: string };
+}): Promise<Metadata> {
+  const lang = params.lang as Locale;
+  if (!SUPPORTED_LOCALES[lang]) {
+    return {};
+  }
+  const dict = await getDictionary(lang);
+
+  return {
+    title: {
+      default: `${dict.brand.name} | ${dict.brand.tagline}`,
+      template: `%s | ${dict.brand.name}`,
+    },
+    description: dict.brand.description,
+    keywords: ['Islamic Library', 'Sunnah', 'Hadith', 'Ebook', 'Bangla Islamic Books', 'Arabic Books', 'Protidiner Sunnah'],
+    openGraph: {
+      title: dict.brand.name,
+      description: dict.brand.description,
+      type: 'website',
+      locale: lang === 'bn' ? 'bn_BD' : lang === 'ar' ? 'ar_SA' : 'en_US',
+    },
+  };
+}
+
+export default async function LocaleLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: { lang: string };
+}) {
+  const lang = params.lang as Locale;
+
+  if (!SUPPORTED_LOCALES[lang]) {
+    notFound();
+  }
+
+  const localeConfig = SUPPORTED_LOCALES[lang];
+  const dict = await getDictionary(lang);
+
+  return (
+    <html lang={lang} dir={localeConfig.dir} className="scroll-smooth">
+      <body
+        className={`min-h-screen flex flex-col bg-background text-foreground ${localeConfig.fontClass} antialiased`}
+      >
+        <Header locale={lang} dict={dict} />
+        <main className="flex-1">{children}</main>
+        <Footer locale={lang} dict={dict} />
+      </body>
+    </html>
+  );
+}

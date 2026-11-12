@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@600;700;800&family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-forest: #123F35;
+  --color-deep: #1B5547;
+  --color-gold: #D9BD7A;
+  --color-ivory: #F7F1E5;
+  --color-charcoal: #26332F;
+
+  --background: #F7F1E5;
+  --foreground: #26332F;
+  --card-bg: #FFFFFF;
+  --border: #E8DECD;
+}
+
+.dark {
+  --background: #121A18;
+  --foreground: #F7F1E5;
+  --card-bg: #1B2623;
+  --border: #2B3D38;
+}
+
+/* Reader Themes */
+.theme-ivory {
+  --reader-bg: #F7F1E5;
+  --reader-fg: #1F2E2A;
+  --reader-border: #E5DAC5;
+}
+
+.theme-sepia {
+  --reader-bg: #F2E8D5;
+  --reader-fg: #3B2E24;
+  --reader-border: #DEC8AC;
+}
+
+.theme-charcoal {
+  --reader-bg: #18211E;
+  --reader-fg: #EAE3D2;
+  --reader-border: #2A3834;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "rlig" 1, "calt" 1;
+  text-rendering: optimizeLegibility;
+}
+
+/* Smooth reading text styling */
+.prose-islamic {
+  font-size: 1.125rem;
+  line-height: 1.95;
+  letter-spacing: 0.01em;
+}
+
+/* RTL Specific Overrides */
+[dir="rtl"] {
+  text-align: right;
+  font-family: 'Amiri', 'Noto Naskh Arabic', serif;
+}
+
+[dir="ltr"] .font-bengali {
+  font-family: 'Hind Siliguri', 'Noto Serif Bengali', sans-serif;
+}
+
+/* Islamic Geometric Border Ornament */
+.islamic-border-ornament {
+  background: linear-gradient(90deg, transparent, #D9BD7A 50%, transparent);
+  height: 2px;
+  width: 100%;
+}
+
+/* Custom Scrollbar for Reader */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(18, 63, 53, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(18, 63, 53, 0.2);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #D9BD7A;
+}
