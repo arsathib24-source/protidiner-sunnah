@@ -16,12 +16,46 @@ export const TodaysSunnah: React.FC<TodaysSunnahProps> = ({ locale }) => {
     arabic: '«مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا، سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ»',
     bengali: '«যে ব্যক্তি জ্ঞান অর্জনের উদ্দেশ্যে কোনো পথ অবলম্বন করে, আল্লাহ তাআলা তার জন্য জান্নাতের পথ সহজ করে দেন।»',
     english: '«Whoever takes a path upon which he seeks knowledge, Allah makes the path to Paradise easy for him.»',
-    lesson: 'ইসলামে দ্বীনি জ্ঞানার্জন এবং সুন্নাহ অনুসরণের গুরুত্ব অপরিসীম। বিশুদ্ধ উৎস থেকে ধর্মীয় জ্ঞান আহরণ জান্নাত লাভের অন্যতম সহজ মাধ্যম।',
-    source: 'সহিহ মুসলিম: ২৬৯৯ (আহমাদ: ৭১০৭, তিরমিজি: ২৬৪৬)',
-    grade: 'সহিহ (সর্বসম্মতিক্রমে বিশুদ্ধ)',
+    lessonBn: 'ইসলামে দ্বীনি জ্ঞানার্জন এবং সুন্নাহ অনুসরণের গুরুত্ব অপরিসীম। বিশুদ্ধ উৎস থেকে ধর্মীয় জ্ঞান আহরণ জান্নাত লাভের অন্যতম সহজ মাধ্যম।',
+    lessonAr: 'فضل طلب العلم الشرعي وعظيم أجره عند الله تعالى؛ إذ جعل الله السعي في تحصيل العلم النافع طريقاً موصلاً إلى الجنة ورضوان الله.',
+    lessonEn: 'The immense virtue of seeking authentic Islamic knowledge; striving to learn beneficial prophetic guidance is a direct pathway to Paradise.',
+    sourceBn: 'সহিহ মুসলিম: ২৬৯৯ (আহমাদ: ৭১০৭, তিরমিজি: ২৬৪৬)',
+    sourceAr: 'صحيح مسلم: 2699',
+    sourceEn: 'Sahih Muslim: 2699',
+    gradeBn: 'সহিহ (সর্বসম্মতিক্রমে বিশুদ্ধ)',
+    gradeAr: 'صحيح ثابت',
+    gradeEn: 'Sahih (Authentic)',
   };
 
-  const textToCopy = `${hadithData.bengali}\n${hadithData.arabic}\nসূত্র: ${hadithData.source} — Protidiner Sunnah`;
+  const primaryTranslation =
+    locale === 'ar'
+      ? hadithData.arabic
+      : locale === 'en'
+      ? hadithData.english
+      : hadithData.bengali;
+
+  const currentLesson =
+    locale === 'ar'
+      ? hadithData.lessonAr
+      : locale === 'en'
+      ? hadithData.lessonEn
+      : hadithData.lessonBn;
+
+  const currentSource =
+    locale === 'ar'
+      ? hadithData.sourceAr
+      : locale === 'en'
+      ? hadithData.sourceEn
+      : hadithData.sourceBn;
+
+  const currentGrade =
+    locale === 'ar'
+      ? hadithData.gradeAr
+      : locale === 'en'
+      ? hadithData.gradeEn
+      : hadithData.gradeBn;
+
+  const textToCopy = `${primaryTranslation}\n${hadithData.arabic}\n${currentSource} — Protidiner Sunnah`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(textToCopy);
@@ -33,7 +67,7 @@ export const TodaysSunnah: React.FC<TodaysSunnahProps> = ({ locale }) => {
     if (typeof navigator !== 'undefined' && navigator.share) {
       try {
         await navigator.share({
-          title: 'আজকের সুন্নাহ - প্রতিদিনের সুন্নাহ',
+          title: locale === 'ar' ? 'سنة اليوم - سُنَّةُ كُلِّ يَوْم' : locale === 'en' ? "Today's Sunnah - Daily Sunnah" : 'আজকের সুন্নাহ - প্রতিদিনের সুন্নাহ',
           text: textToCopy,
           url: window.location.href,
         });
@@ -61,17 +95,17 @@ export const TodaysSunnah: React.FC<TodaysSunnahProps> = ({ locale }) => {
             </div>
             <div>
               <span className="text-xs uppercase font-bold tracking-widest text-accent">
-                প্রাত্যহিক নসিহত
+                {locale === 'bn' ? 'প্রাত্যহিক নসিহত' : locale === 'ar' ? 'هدي النبوة اليومي' : 'Daily Prophetic Guidance'}
               </span>
               <h3 className="text-xl sm:text-2xl font-bold font-bengali-heading text-background">
-                আজকের সুন্নাহ ও দিকনির্দেশনা
+                {locale === 'bn' ? 'আজকের সুন্নাহ ও দিকনির্দেশনা' : locale === 'ar' ? 'سنة اليوم والموعظة النبوية' : "Today's Sunnah & Reflection"}
               </h3>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
             <span className="text-xs text-background/80 bg-primary-dark/80 px-3.5 py-1.5 rounded-full border border-accent/30 font-mono">
-              {hadithData.source}
+              {currentSource}
             </span>
           </div>
         </div>
@@ -85,15 +119,19 @@ export const TodaysSunnah: React.FC<TodaysSunnahProps> = ({ locale }) => {
             </p>
           </div>
 
-          {/* Bengali Translation */}
-          <blockquote className="text-lg sm:text-2xl font-medium font-bengali-heading text-background leading-relaxed border-s-4 border-accent ps-5 py-1">
-            {hadithData.bengali}
-          </blockquote>
+          {/* Localized Translation if not purely Arabic */}
+          {locale !== 'ar' && (
+            <blockquote className="text-lg sm:text-2xl font-medium font-bengali-heading text-background leading-relaxed border-s-4 border-accent ps-5 py-1">
+              {primaryTranslation}
+            </blockquote>
+          )}
 
           {/* Scholarly Lesson */}
-          <div className="p-4 rounded-2xl bg-primary-dark/60 border border-accent/20 text-xs sm:text-sm text-background/85 leading-relaxed font-bengali">
-            <span className="font-bold text-accent">শিক্ষণীয় শিক্ষা: </span>
-            {hadithData.lesson}
+          <div className="p-4 rounded-2xl bg-primary-dark/60 border border-accent/20 text-xs sm:text-sm text-background/85 leading-relaxed">
+            <span className="font-bold text-accent">
+              {locale === 'bn' ? 'শিক্ষণীয় শিক্ষা: ' : locale === 'ar' ? 'الفائدة الإيمانية: ' : 'Reflection & Lesson: '}
+            </span>
+            {currentLesson}
           </div>
         </div>
 
@@ -101,7 +139,10 @@ export const TodaysSunnah: React.FC<TodaysSunnahProps> = ({ locale }) => {
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 mt-6 border-t border-primary-light/60">
           <div className="flex items-center gap-2 text-xs text-accent">
             <ShieldCheck className="w-4 h-4" />
-            <span>সনদ মান: <strong className="text-background">{hadithData.grade}</strong></span>
+            <span>
+              {locale === 'bn' ? 'সনদ মান: ' : locale === 'ar' ? 'درجة الحديث: ' : 'Authenticity Grade: '}
+              <strong className="text-background">{currentGrade}</strong>
+            </span>
           </div>
 
           <div className="flex items-center gap-2.5">
@@ -109,29 +150,20 @@ export const TodaysSunnah: React.FC<TodaysSunnahProps> = ({ locale }) => {
               variant="accent"
               size="sm"
               onClick={handleCopy}
-              className="gap-1.5 text-xs font-bold"
+              className="gap-1.5 text-xs font-semibold shadow-subtle"
             >
-              {copied ? (
-                <>
-                  <Check className="w-3.5 h-3.5 text-primary" />
-                  <span>কপি হয়েছে</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="w-3.5 h-3.5" />
-                  <span>হাদিস কপি করুন</span>
-                </>
-              )}
+              {copied ? <Check className="w-3.5 h-3.5 text-primary" /> : <Copy className="w-3.5 h-3.5" />}
+              <span>{copied ? (locale === 'bn' ? 'কপি হয়েছে' : locale === 'ar' ? 'تم النسخ' : 'Copied') : (locale === 'bn' ? 'শেয়ার করতে কপি' : locale === 'ar' ? 'نسخ للمشاركة' : 'Copy Hadith')}</span>
             </Button>
 
             <Button
               variant="outline"
               size="sm"
               onClick={handleShare}
-              className="gap-1.5 text-xs text-background border-background/30 hover:border-accent hover:text-accent hover:bg-white/5"
+              className="gap-1.5 text-xs bg-primary-dark/60 text-background border-accent/30 hover:bg-primary-dark"
             >
               <Share2 className="w-3.5 h-3.5 text-accent" />
-              <span>শেয়ার করুন</span>
+              <span>{locale === 'bn' ? 'শেয়ার' : locale === 'ar' ? 'مشاركة' : 'Share'}</span>
             </Button>
           </div>
         </div>

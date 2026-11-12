@@ -18,12 +18,30 @@ export async function generateMetadata({
   const dict = await getDictionary(lang);
 
   return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://protidinersunnah.com'),
     title: {
       default: `${dict.brand.name} | ${dict.brand.tagline}`,
       template: `%s | ${dict.brand.name}`,
     },
     description: dict.brand.description,
-    keywords: ['Islamic Library', 'Sunnah', 'Hadith', 'Ebook', 'Bangla Islamic Books', 'Arabic Books', 'Protidiner Sunnah'],
+    keywords: [
+      dict.brand.name,
+      'Islamic Library',
+      'Sunnah',
+      'Hadith',
+      'Ebook',
+      lang === 'bn' ? 'বাংলা ইসলামিক বই' : lang === 'ar' ? 'كتب إسلامية' : 'Authentic Islamic Ebooks',
+      'Daily Sunnah',
+    ],
+    alternates: {
+      canonical: `/${lang}`,
+      languages: {
+        bn: '/bn',
+        ar: '/ar',
+        en: '/en',
+        'x-default': '/bn',
+      },
+    },
     openGraph: {
       title: dict.brand.name,
       description: dict.brand.description,

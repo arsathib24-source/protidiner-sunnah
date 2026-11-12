@@ -19,9 +19,31 @@ export async function generateMetadata({
     return { title: 'ই-বুক রিডার | Protidiner Sunnah' };
   }
 
+  const title = book.title[lang] || book.title.bn;
+  const author = book.author[lang] || book.author.bn;
+
   return {
-    title: `${book.title[lang]} - অনলাইন রিডার | Protidiner Sunnah`,
-    description: `অনলাইনে পড়ুন: ${book.title[lang]} - রচয়িতা: ${book.author[lang]}`,
+    title: `${title} - ${lang === 'bn' ? 'অনলাইন রিডার' : lang === 'ar' ? 'القارئ الإلكتروني' : 'Online Reader'} | Protidiner Sunnah`,
+    description:
+      lang === 'bn'
+        ? `অনলাইনে পড়ুন: ${title} - রচয়িতা: ${author}`
+        : lang === 'ar'
+        ? `اقرأ أونلاين: ${title} - تأليف: ${author}`
+        : `Read online: ${title} by ${author}`,
+    alternates: {
+      canonical: `/${lang}/read/${params.slug}`,
+      languages: {
+        bn: `/bn/read/${params.slug}`,
+        ar: `/ar/read/${params.slug}`,
+        en: `/en/read/${params.slug}`,
+        'x-default': `/bn/read/${params.slug}`,
+      },
+    },
+    openGraph: {
+      title: `${title} | Protidiner Sunnah Reader`,
+      description: `Read ${title} online free with bilingual side-by-side Arabic translation.`,
+      locale: lang === 'bn' ? 'bn_BD' : lang === 'ar' ? 'ar_SA' : 'en_US',
+    },
   };
 }
 

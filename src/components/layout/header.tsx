@@ -25,11 +25,11 @@ export const Header: React.FC<HeaderProps> = ({ locale, dict }) => {
 
   const navLinks = [
     { href: `/${locale}`, label: dict.nav.home },
-    { href: `/${locale}/ebooks`, label: 'ই-বুক লাইব্রেরি' },
+    { href: `/${locale}/ebooks`, label: dict.nav.library },
     { href: `/${locale}/categories`, label: dict.nav.categories },
-    { href: `/${locale}#todays-sunnah`, label: 'আজকের সুন্নাহ' },
+    { href: `/${locale}#todays-sunnah`, label: dict.nav.todaysSunnah || (locale === 'bn' ? 'আজকের সুন্নাহ' : locale === 'ar' ? 'سنة اليوم' : "Today's Sunnah") },
     { href: `/${locale}/bookmarks`, label: dict.nav.bookmarks },
-    { href: `/${locale}/design-system`, label: 'ডিজাইন সিস্টেম' },
+    { href: `/${locale}/design-system`, label: dict.nav.designSystem || (locale === 'bn' ? 'ডিজাইন সিস্টেম' : locale === 'ar' ? 'نظام التصميم' : 'Design System') },
   ];
 
   return (

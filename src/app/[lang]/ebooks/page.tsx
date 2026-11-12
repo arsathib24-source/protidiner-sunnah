@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { BookOpen } from 'lucide-react';
 import { Locale, SUPPORTED_LOCALES } from '@/types/i18n';
+import { getDictionary } from '@/lib/i18n/get-dictionary';
 import { CLASSICAL_BOOKS } from '@/lib/data/books';
 import { SectionHeader } from '@/components/ui/decorative';
 import { EbookFilters } from '@/components/ebooks/ebook-filters';
@@ -15,11 +16,25 @@ export async function generateMetadata({
   params: { lang: string };
 }): Promise<Metadata> {
   const lang = (params.lang || 'bn') as Locale;
+  const dict = await getDictionary(lang);
+
   return {
-    title: lang === 'bn' ? 'ইসলামিক ই-বুক লাইব্রেরি' : lang === 'ar' ? 'مكتبة الكتب الإسلامية' : 'Islamic Ebook Library',
-    description: lang === 'bn'
-      ? 'সহিহ হাদিস, ফিকহ, সিরাত ও দোয়ার প্রামাণ্য ইসলামিক ই-বুক সম্পূর্ণ বিনামূল্যে অনলাইনে পড়ুন।'
-      : 'Read authentic Islamic ebooks from classical sources completely free.',
+    title: `${dict.library.title} | ${dict.brand.name}`,
+    description: dict.library.subtitle,
+    alternates: {
+      canonical: `/${lang}/ebooks`,
+      languages: {
+        bn: '/bn/ebooks',
+        ar: '/ar/ebooks',
+        en: '/en/ebooks',
+        'x-default': '/bn/ebooks',
+      },
+    },
+    openGraph: {
+      title: dict.library.title,
+      description: dict.library.subtitle,
+      locale: lang === 'bn' ? 'bn_BD' : lang === 'ar' ? 'ar_SA' : 'en_US',
+    },
   };
 }
 
@@ -36,6 +51,7 @@ export default async function EbooksPage({
   };
 }) {
   const lang = (params.lang || 'bn') as 'bn' | 'ar' | 'en';
+  const dict = await getDictionary(lang);
   const isRTL = SUPPORTED_LOCALES[lang]?.dir === 'rtl';
 
   const query = (searchParams?.q || '').toLowerCase().trim();
@@ -43,15 +59,15 @@ export default async function EbooksPage({
   const langFilter = searchParams?.lang_filter || 'all';
   const sortMode = searchParams?.sort || 'latest';
 
-  // Categories list
+  // Localized Categories list
   const categories = [
-    { slug: 'all', label: 'সকল কিতাব' },
-    { slug: 'hadith', label: 'হাদিস সংকলন' },
-    { slug: 'duas', label: 'দোয়া ও জিকির' },
-    { slug: 'aqeedah', label: 'আকিদা ও বিশ্বাস' },
-    { slug: 'seerah', label: 'সিরাতুন নবী ﷺ' },
-    { slug: 'fiqh', label: 'ফিকহুস সুন্নাহ' },
-    { slug: 'tazkiyah', label: 'আখলাক ও শিষ্টাচার' },
+    { slug: 'all', label: dict.library.allCategories },
+    { slug: 'hadith', label: lang === 'bn' ? 'হাদিস সংকলন' : lang === 'ar' ? 'الحديث الشريف' : 'Hadith Collections' },
+    { slug: 'duas', label: lang === 'bn' ? 'দোয়া ও জিকির' : lang === 'ar' ? 'الأدعية والأذكار' : 'Duas & Adhkar' },
+    { slug: 'aqeedah', label: lang === 'bn' ? 'আকিদা ও বিশ্বাস' : lang === 'ar' ? 'العقيدة الإسلامية' : 'Aqeedah & Creed' },
+    { slug: 'seerah', label: lang === 'bn' ? 'সিরাতুন নবী ﷺ' : lang === 'ar' ? 'السيرة النبوية' : 'Prophetic Seerah' },
+    { slug: 'fiqh', label: lang === 'bn' ? 'ফিকহুস সুন্নাহ' : lang === 'ar' ? 'فقه السنة' : 'Fiqh of Sunnah' },
+    { slug: 'tazkiyah', label: lang === 'bn' ? 'আখলাক ও শিষ্টাচার' : lang === 'ar' ? 'الأخلاق والآداب' : 'Islamic Ethics' },
   ];
 
   // Filtering Logic
@@ -96,9 +112,9 @@ export default async function EbooksPage({
       <div className="container mx-auto px-4 sm:px-6 space-y-12">
         {/* Header */}
         <SectionHeader
-          badge="ডিজিটাল ইসলামিক লাইব্রেরি"
-          title="সকল প্রামাণ্য ই-বুক ও কিতাব"
-          subtitle="পবিত্র কুরআন ও সহিহ সুন্নাহর আলোকে বিজ্ঞ আলেমদের রচিত নির্ভরযোগ্য কিতাবসমূহ বিনামূল্যে অনলাইনে যেকোনো ডিভাইসে পাঠ করুন।"
+          badge={dict.library.badge}
+          title={dict.library.title}
+          subtitle={dict.library.subtitle}
         />
 
         {/* Search & Filter Component */}
@@ -127,15 +143,15 @@ export default async function EbooksPage({
                 <BookOpen className="w-8 h-8" />
               </div>
               <h3 className="text-xl font-bold font-bengali-heading text-primary">
-                আপনার অনুসন্ধানে কোনো কিতাব পাওয়া যায়নি
+                {dict.library.noBooksFound}
               </h3>
               <p className="text-sm text-text-muted">
-                অন্য কোনো শব্দ দিয়ে খুঁজুন অথবা ফিল্টার রিসেট করুন।
+                {dict.library.noBooksSubtitle}
               </p>
               <div className="pt-2">
                 <Link href={`/${lang}/ebooks`}>
                   <Button variant="primary" size="sm">
-                    ফিল্টার মুছুন
+                    {dict.library.clearFilters}
                   </Button>
                 </Link>
               </div>

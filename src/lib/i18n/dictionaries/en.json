@@ -7,11 +7,20 @@
   },
   "nav": {
     "home": "Home",
-    "library": "Library",
+    "library": "Ebook Library",
     "categories": "Categories",
+    "todaysSunnah": "Today's Sunnah",
     "bookmarks": "Bookmarks",
     "about": "About",
+    "designSystem": "Design System",
     "admin": "Admin Dashboard"
+  },
+  "hero": {
+    "badge": "Free & Open Islamic Digital Library",
+    "title": "Illuminating Everyday Life with the Sunnah",
+    "description": "Learn the daily Sunnah of Prophet Muhammad ﷺ, read authentic classical literature, and enrich your life with verified knowledge.",
+    "readEbooks": "Read Ebooks",
+    "searchSunnah": "Search Sunnah"
   },
   "actions": {
     "readNow": "Read Now",
@@ -26,20 +35,40 @@
     "close": "Close",
     "back": "Back",
     "nextChapter": "Next Chapter",
-    "prevChapter": "Previous Chapter"
+    "prevChapter": "Previous Chapter",
+    "readOnline": "Read Online"
   },
   "home": {
     "heroBadge": "Free & Open Islamic Digital Library",
-    "heroTitle": "Illuminating Everyday Life with Authentic Knowledge",
-    "heroSubtitle": "Read authentic Islamic ebooks written by respected scholars completely free online on any device.",
+    "heroTitle": "Illuminating Everyday Life with the Sunnah",
+    "heroSubtitle": "Learn the daily Sunnah of Prophet Muhammad ﷺ, read authentic classical literature, and enrich your life with verified knowledge.",
     "dailySunnahTitle": "Daily Sunnah & Guidance",
     "dailySunnahText": "«Whoever revives my Sunnah has loved me, and whoever loves me will be with me in Paradise.»",
     "dailySunnahSource": "[Tirmidhi: 2678 - Hasan/Sahih]",
     "featuredBooksTitle": "Featured Books",
     "featuredBooksSubtitle": "Carefully reviewed and foundational texts for students and general readers",
+    "popularBooksTitle": "Popular Books",
+    "popularBooksSubtitle": "Most frequently read and referenced classical works",
+    "recentBooksTitle": "Recently Added Books",
+    "recentBooksSubtitle": "Freshly verified and audited classical editions",
     "categoriesTitle": "Browse by Category",
     "categoriesSubtitle": "Find verified literature across essential Islamic disciplines",
     "viewAll": "View All"
+  },
+  "library": {
+    "title": "Islamic Ebook Library",
+    "subtitle": "Read authentic classical works of Hadith, Fiqh, Seerah, and Duas completely free online across any device.",
+    "badge": "Digital Islamic Library",
+    "searchPlaceholder": "Search by book title, author, or hadith topic...",
+    "allCategories": "All Books",
+    "sortLatest": "Latest Added",
+    "sortPopular": "Most Read",
+    "sortTitle": "By Title",
+    "filterAllLangs": "All Languages",
+    "noBooksFound": "No ebooks found matching your search",
+    "noBooksSubtitle": "Try different keywords or reset your filters.",
+    "clearFilters": "Reset Filters",
+    "translationPending": "Translation in Review"
   },
   "reader": {
     "tableOfContents": "Table of Contents",
@@ -49,11 +78,14 @@
     "themeSepia": "Sepia (Day)",
     "themeCharcoal": "Charcoal (Night)",
     "readingProgress": "Reading Progress",
-    "estimatedRead": "min read"
+    "estimatedRead": "min read",
+    "translationNotice": "To preserve textual sanctity, only verified scholarly translations are published. No automated translations are used."
   },
   "footer": {
     "quote": "«Convey from me, even if it is a single verse.» [Sahih al-Bukhari]",
     "rights": "All resources are made openly available for educational and non-commercial benefit.",
-    "disclaimer": "All texts and references are strictly reviewed for authenticity. No unverified religious content is published."
+    "disclaimer": "All texts and references are strictly reviewed for authenticity. No unverified religious content is published.",
+    "manifestoTitle": "Authenticity & Neutral Integrity Manifesto",
+    "manifestoText": "All texts, chains of narration, and citations are verified against audited physical print manuscripts. Automated unverified AI translations are strictly prohibited."
   }
 }

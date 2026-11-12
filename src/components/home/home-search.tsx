@@ -21,14 +21,31 @@ export const HomeSearch: React.FC<HomeSearchProps> = ({ locale, isRTL = false })
     router.push(`/${locale}/ebooks?q=${encodeURIComponent(query.trim())}`);
   };
 
-  const quickSearches = [
-    { label: 'দৈনন্দিন দোয়া', q: 'দোয়া' },
-    { label: 'সহিহ বুখারি', q: 'বুখারি' },
-    { label: 'ইখলাস ও নিয়ত', q: 'নিয়ত' },
-    { label: 'সালাতের বিধান', q: 'সালাত' },
-    { label: 'সকাল-সন্ধ্যার জিকির', q: 'জিকির' },
-  ];
+  const quickSearchesByLocale: Record<string, Array<{ label: string; q: string }>> = {
+    bn: [
+      { label: 'দৈনন্দিন দোয়া', q: 'দোয়া' },
+      { label: 'সহিহ বুখারি', q: 'বুখারি' },
+      { label: 'ইখলাস ও নিয়ত', q: 'নিয়ত' },
+      { label: 'সালাতের বিধান', q: 'সালাত' },
+      { label: 'সকাল-সন্ধ্যার জিকির', q: 'জিকির' },
+    ],
+    ar: [
+      { label: 'أذكار الصباح والمساء', q: 'أذكار' },
+      { label: 'صحيح البخاري', q: 'البخاري' },
+      { label: 'باب الإخلاص والنية', q: 'النية' },
+      { label: 'أحكام الصلاة', q: 'الصلاة' },
+      { label: 'حصن المسلم', q: 'حصن' },
+    ],
+    en: [
+      { label: 'Daily Supplications', q: 'Dua' },
+      { label: 'Sahih al-Bukhari', q: 'Bukhari' },
+      { label: 'Sincerity & Intention', q: 'Intention' },
+      { label: 'Rules of Prayer', q: 'Prayer' },
+      { label: 'Hisnul Muslim', q: 'Hisnul' },
+    ],
+  };
 
+  const quickSearches = quickSearchesByLocale[locale] || quickSearchesByLocale.bn;
   const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
 
   return (
@@ -36,7 +53,13 @@ export const HomeSearch: React.FC<HomeSearchProps> = ({ locale, isRTL = false })
       <form onSubmit={handleSearch} className="relative flex flex-col sm:flex-row gap-3">
         <div className="flex-1">
           <SearchInput
-            placeholder="কিতাবের নাম, লেখক, হাদিসের পরিচ্ছেদ বা বিষয় দিয়ে অনুসন্ধান করুন..."
+            placeholder={
+              locale === 'bn'
+                ? 'কিতাবের নাম, লেখক, হাদিসের পরিচ্ছেদ বা বিষয় দিয়ে অনুসন্ধান করুন...'
+                : locale === 'ar'
+                ? 'ابحث عن كتاب، مؤلف، باب حديثي أو موضوع شرعي...'
+                : 'Search by book title, author, hadith chapter, or topic...'
+            }
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onClear={() => setQuery('')}
@@ -50,7 +73,7 @@ export const HomeSearch: React.FC<HomeSearchProps> = ({ locale, isRTL = false })
           className="h-14 px-8 rounded-2xl gap-2 font-bengali-heading font-bold shadow-card flex-shrink-0"
         >
           <Search className="w-4 h-4 text-accent" />
-          <span>সুন্নাহ খুঁজুন</span>
+          <span>{locale === 'bn' ? 'সুন্নাহ খুঁজুন' : locale === 'ar' ? 'بحث في السنن' : 'Search Sunnah'}</span>
           <ArrowIcon className="w-4 h-4" />
         </Button>
       </form>
@@ -59,7 +82,9 @@ export const HomeSearch: React.FC<HomeSearchProps> = ({ locale, isRTL = false })
       <div className="flex flex-wrap items-center gap-2 mt-4 text-xs">
         <span className="flex items-center gap-1 text-text-muted font-medium">
           <Sparkles className="w-3.5 h-3.5 text-accent-dark" />
-          <span>প্রস্তাবিত বিষয়সমূহ:</span>
+          <span>
+            {locale === 'bn' ? 'প্রস্তাবিত বিষয়সমূহ:' : locale === 'ar' ? 'موضوعات مقترحة:' : 'Suggested Topics:'}
+          </span>
         </span>
         {quickSearches.map((item) => (
           <button

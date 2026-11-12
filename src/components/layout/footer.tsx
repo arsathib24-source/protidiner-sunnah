@@ -19,6 +19,7 @@ export const Footer: React.FC<FooterProps> = ({ locale, dict }) => {
   if (pathname?.includes('/admin')) {
     return null;
   }
+
   return (
     <footer className="bg-primary text-primary-foreground pt-16 pb-12 border-t-2 border-accent/40 relative overflow-hidden">
       {/* Background Decorative Star Motif */}
@@ -38,7 +39,7 @@ export const Footer: React.FC<FooterProps> = ({ locale, dict }) => {
                 {dict.brand.name}
               </span>
             </div>
-            <p className="text-sm text-background/80 max-w-md leading-relaxed font-bengali">
+            <p className="text-sm text-background/80 max-w-md leading-relaxed">
               {dict.brand.description}
             </p>
 
@@ -46,10 +47,12 @@ export const Footer: React.FC<FooterProps> = ({ locale, dict }) => {
             <div className="p-4 rounded-2xl bg-primary-dark/80 border border-accent/30 text-xs text-accent-light max-w-md shadow-subtle">
               <div className="flex items-center gap-2 mb-1.5 font-bold text-accent">
                 <ShieldCheck className="w-4 h-4" />
-                <span>প্রামাণিকতা ও বিশুদ্ধতার মূলনীতি</span>
+                <span>
+                  {dict.footer.manifestoTitle || (locale === 'bn' ? 'প্রামাণিকতা ও বিশুদ্ধতার মূলনীতি' : locale === 'ar' ? 'ميثاق الأمانة والتحقيق' : 'Authenticity & Neutral Integrity')}
+                </span>
               </div>
               <p className="opacity-90 leading-relaxed">
-                সকল কিতাব, সনদ ও তথ্য যাচাইকৃত মূল পাণ্ডুলিপির আলোকে সংকলিত। কৃত্রিম বুদ্ধিমত্তা দ্বারা অনিরীক্ষিত ধর্মীয় বাণী প্রকাশ সম্পূর্ণরূপে নিষিদ্ধ।
+                {dict.footer.manifestoText || (locale === 'bn' ? 'সকল কিতাব, সনদ ও তথ্য যাচাইকৃত মূল পাণ্ডুলিপির আলোকে সংকলিত। কৃত্রিম বুদ্ধিমত্তা দ্বারা অনিরীক্ষিত ধর্মীয় বাণী প্রকাশ সম্পূর্ণরূপে নিষিদ্ধ।' : locale === 'ar' ? 'جميع النصوص والأحاديث منقولة بأمانة من الطبعات المحققة دون أي توليد آلي غير مراجع.' : 'All literature and traditions are verified against physical print manuscripts. Automated unverified AI generation is strictly prohibited.')}
               </p>
             </div>
           </div>
@@ -66,7 +69,7 @@ export const Footer: React.FC<FooterProps> = ({ locale, dict }) => {
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/library`} className="hover:text-accent transition-colors">
+                <Link href={`/${locale}/ebooks`} className="hover:text-accent transition-colors">
                   {dict.nav.library}
                 </Link>
               </li>
@@ -82,7 +85,7 @@ export const Footer: React.FC<FooterProps> = ({ locale, dict }) => {
               </li>
               <li>
                 <Link href={`/${locale}/design-system`} className="hover:text-accent transition-colors">
-                  ডিজাইন সিস্টেম
+                  {dict.nav.designSystem || (locale === 'bn' ? 'ডিজাইন সিস্টেম' : locale === 'ar' ? 'نظام التصميم' : 'Design System')}
                 </Link>
               </li>
             </ul>
@@ -93,14 +96,14 @@ export const Footer: React.FC<FooterProps> = ({ locale, dict }) => {
             <div className="flex items-center gap-2 text-accent">
               <ShieldCheck className="w-5 h-5" />
               <h4 className="text-sm font-semibold font-bengali-heading uppercase tracking-wider">
-                উন্মুক্ত দ্বীনি পাঠাগার
+                {locale === 'bn' ? 'উন্মুক্ত দ্বীনি পাঠাগার' : locale === 'ar' ? 'مكتبة إسلامية موثقة' : 'Verified Islamic Library'}
               </h4>
             </div>
-            <p className="text-xs text-background/70 leading-relaxed font-bengali">
+            <p className="text-xs text-background/70 leading-relaxed">
               {dict.footer.disclaimer}
             </p>
             <div className="pt-2 text-xs text-accent-light">
-              <span>ট্যাগলাইন: </span>
+              <span>{locale === 'bn' ? 'ট্যাগলাইন: ' : locale === 'ar' ? 'شعارنا: ' : 'Tagline: '}</span>
               <span className="font-semibold">{dict.brand.tagline}</span>
             </div>
           </div>
@@ -110,7 +113,7 @@ export const Footer: React.FC<FooterProps> = ({ locale, dict }) => {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-background/60 gap-4">
           <p>{dict.footer.rights}</p>
           <div className="flex items-center gap-1.5 text-background/75">
-            <span>স্থাপত্য:</span>
+            <span>{locale === 'bn' ? 'স্থাপত্য:' : locale === 'ar' ? 'الهندسة والتصميم:' : 'Architecture:'}</span>
             <span className="font-semibold text-accent">Protidiner Sunnah Design System</span>
           </div>
         </div>
