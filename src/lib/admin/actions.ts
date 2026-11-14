@@ -282,20 +282,33 @@ export async function updateUserRoleAction(userId: string, newRole: any) {
 export async function updateWebsiteSettingsAction(formData: FormData) {
   await requireAdminSession();
 
-  const siteNameBn = formData.get('siteNameBn') as string;
-  const taglineBn = formData.get('taglineBn') as string;
-  const contactEmail = formData.get('contactEmail') as string;
+  const siteNameBn = (formData.get('siteNameBn') as string) || '';
+  const siteNameEn = (formData.get('siteNameEn') as string) || '';
+  const taglineBn = (formData.get('taglineBn') as string) || '';
+  const taglineAr = (formData.get('taglineAr') as string) || '';
+  const taglineEn = (formData.get('taglineEn') as string) || '';
+  const logoType = (formData.get('logoType') as any) || 'star';
+  const logoImageUrl = (formData.get('logoImageUrl') as string) || '';
+  const showTagline = formData.get('showTagline') === 'true';
+  const contactEmail = (formData.get('contactEmail') as string) || '';
   const maintenanceMode = formData.get('maintenanceMode') === 'true';
 
   const res = await updateWebsiteSettings({
     siteNameBn,
+    siteNameEn,
     taglineBn,
+    taglineAr,
+    taglineEn,
+    logoType,
+    logoImageUrl,
+    showTagline,
     contactEmail,
     maintenanceMode,
   });
 
   if (res.success) {
     revalidatePath('/[lang]/admin/settings', 'page');
+    revalidatePath('/', 'layout');
   }
   return res;
 }

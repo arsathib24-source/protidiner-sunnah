@@ -6,15 +6,25 @@ import { usePathname } from 'next/navigation';
 import { BookOpen, Menu, X, Sparkles, Search } from 'lucide-react';
 import { Locale } from '@/types/i18n';
 import { LanguageSwitcher } from './language-switcher';
-import { IslamicStarIcon } from '../ui/decorative';
 import { AnnouncementBar } from './announcement-bar';
+import { BrandLogo, LogoEmblemType } from '../ui/brand-logo';
 
-interface HeaderProps {
+export interface HeaderProps {
   locale: Locale;
   dict: any;
+  siteSettings?: {
+    siteNameBn?: string;
+    siteNameEn?: string;
+    taglineBn?: string;
+    taglineAr?: string;
+    taglineEn?: string;
+    logoType?: LogoEmblemType;
+    logoImageUrl?: string;
+    showTagline?: boolean;
+  };
 }
 
-export const Header: React.FC<HeaderProps> = ({ locale, dict }) => {
+export const Header: React.FC<HeaderProps> = ({ locale, dict, siteSettings }) => {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -22,6 +32,25 @@ export const Header: React.FC<HeaderProps> = ({ locale, dict }) => {
   if (pathname?.includes('/admin')) {
     return null;
   }
+
+  // Dynamic Title & Tagline resolving from settings or dictionary
+  const brandTitle =
+    locale === 'ar'
+      ? dict.brand.name
+      : locale === 'en'
+      ? siteSettings?.siteNameEn || dict.brand.englishName || 'Daily Sunnah'
+      : siteSettings?.siteNameBn || dict.brand.name;
+
+  const brandTagline =
+    locale === 'ar'
+      ? siteSettings?.taglineAr || dict.brand.tagline
+      : locale === 'en'
+      ? siteSettings?.taglineEn || dict.brand.tagline
+      : siteSettings?.taglineBn || dict.brand.tagline;
+
+  const logoType = siteSettings?.logoType || 'star';
+  const logoImageUrl = siteSettings?.logoImageUrl;
+  const showTagline = siteSettings?.showTagline !== false;
 
   const navLinks = [
     { href: `/${locale}`, label: dict.nav.home },
@@ -50,20 +79,17 @@ export const Header: React.FC<HeaderProps> = ({ locale, dict }) => {
       {/* 2. Responsive Navigation */}
       <header className="bg-background/95 dark:bg-surface-dark/95 backdrop-blur-md border-b border-border transition-colors">
         <div className="container mx-auto flex items-center justify-between h-20 px-4 sm:px-6">
-          {/* Brand Logo & Emblem */}
-          <Link href={`/${locale}`} className="flex items-center gap-3.5 group">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-accent shadow-subtle border border-accent/40 transition-transform group-hover:scale-105">
-              <IslamicStarIcon className="w-6 h-6 text-accent" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-bold font-bengali-heading text-xl sm:text-2xl text-primary dark:text-background tracking-tight group-hover:text-secondary transition-colors">
-                {dict.brand.name}
-              </span>
-              <span className="text-xs text-accent-dark font-medium -mt-0.5">
-                {dict.brand.tagline}
-              </span>
-            </div>
-          </Link>
+          {/* Brand Logo & Emblem - Dynamic with exact preserved styling */}
+          <BrandLogo
+            locale={locale}
+            title={brandTitle}
+            tagline={brandTagline}
+            logoType={logoType}
+            logoImageUrl={logoImageUrl}
+            showTagline={showTagline}
+            size="md"
+            variant="header"
+          />
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-6 lg:gap-8">

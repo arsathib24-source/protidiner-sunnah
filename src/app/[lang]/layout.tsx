@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Locale, SUPPORTED_LOCALES } from '@/types/i18n';
 import { getDictionary } from '@/lib/i18n/get-dictionary';
+import { getWebsiteSettings } from '@/lib/admin/admin-store';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 
@@ -65,14 +66,17 @@ export default async function LocaleLayout({
   }
 
   const localeConfig = SUPPORTED_LOCALES[lang];
-  const dict = await getDictionary(lang);
+  const [dict, settings] = await Promise.all([
+    getDictionary(lang),
+    getWebsiteSettings(),
+  ]);
 
   return (
     <html lang={lang} dir={localeConfig.dir} className="scroll-smooth">
       <body
         className={`min-h-screen flex flex-col bg-background text-foreground ${localeConfig.fontClass} antialiased`}
       >
-        <Header locale={lang} dict={dict} />
+        <Header locale={lang} dict={dict} siteSettings={settings} />
         <main className="flex-1">{children}</main>
         <Footer locale={lang} dict={dict} />
       </body>

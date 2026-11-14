@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { BookOpen, ShieldCheck, Heart, Sparkles } from 'lucide-react';
 import { Locale } from '@/types/i18n';
 import { IslamicStarIcon } from '../ui/decorative';
+import { BrandLogo } from '../ui/brand-logo';
 
 interface FooterProps {
   locale: Locale;
@@ -31,14 +32,14 @@ export const Footer: React.FC<FooterProps> = ({ locale, dict }) => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-primary-light">
           {/* Brand Info */}
           <div className="md:col-span-2 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-2xl bg-secondary flex items-center justify-center text-accent border border-accent/40 shadow-subtle">
-                <IslamicStarIcon className="w-5 h-5 text-accent" />
-              </div>
-              <span className="font-bold font-bengali-heading text-2xl tracking-tight text-background">
-                {dict.brand.name}
-              </span>
-            </div>
+            <BrandLogo
+              locale={locale}
+              title={dict.brand.name}
+              size="sm"
+              variant="footer"
+              showTagline={false}
+              className="mb-1"
+            />
             <p className="text-sm text-background/80 max-w-md leading-relaxed">
               {dict.brand.description}
             </p>
