@@ -258,6 +258,7 @@ export const ReaderEngine: React.FC<ReaderEngineProps> = ({
         onClose={() => setIsTOCOpen(false)}
         chapters={book.chapters}
         activeChapterNumber={activeChapterNumber}
+        totalCompiledChapters={book.totalCompiledChapters}
         onSelectChapter={(num) => handleSelectChapter(num)}
         locale={locale}
       />

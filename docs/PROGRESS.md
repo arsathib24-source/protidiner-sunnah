@@ -15,7 +15,7 @@
 - Live PostgreSQL instance configured on Supabase: `pookfbvytzyjbntvvesw.supabase.co`.
 - 13-table normalized relational schema deployed with strict RLS:
   `roles`, `profiles`, `media`, `categories`, `category_translations`, `books`, `book_translations`, `chapters`, `chapter_translations`, `hadith_references`, `bookmarks`, `reading_progress`, `reviews`.
-- Production database seeded with 4 core categories and 7 classical books with chapter translations and authentic hadith references.
+- Production database seeded with 4 core categories and 7 classical books with chapter translations and authentic hadith references (`scripts/seed-data.mjs`).
 
 ## Phase 3: P0/P1 Defects Fixed & Verified (Completed)
 1. **BUG-01 (Auth Callback 404):** Resolved middleware routing exclusion in `src/middleware.ts` for `/auth`.
@@ -24,21 +24,33 @@
 4. **BUG-04 (Bookmarks Hydration):** Built `src/components/bookmarks/bookmarks-client-view.tsx` with dynamic `localStorage` and `public.bookmarks` hydration, reading progress bars, and direct reader jump links.
 5. **BUG-05 (Dynamic Today's Sunnah Engine):** Built `src/components/home/todays-sunnah.tsx` with 7+ verified multi-hadith rotational dataset based on day of year, previous/next controls, and citation verification.
 6. **BUG-06 (Image Optimizer Remote Patterns SSRF):** Restricted `next.config.mjs` remote patterns to authorized Supabase domains and trusted CDNs.
+7. **BUG-07 (Riyad-us-Saliheen Chapter Discrepancy Resolved):** Classical physical compilation has 372 chapters; digital verified release has 5 chapters ready. Transparently represented as `(১/৫ প্রস্তুত, মূল ৩৭২)` with editorial disclaimer callout box.
 
 ## Phase 4: Islamic Knowledge Platform Modules Deployed (Completed)
-1. **Module B: Quran Knowledge Center**
+1. **Module A: Classical Ebook Library & Advanced Reader**
+   - Routes: `/[lang]/ebooks`, `/[lang]/ebooks/[slug]`, `/[lang]/read/[slug]`
+   - Full TOC drawer, typography controls, Ivory/Sepia/Dark theme engine, copy/share, and verified chapter progress.
+2. **Module B: Quran Knowledge Center**
    - Routes: `/[lang]/quran` & `/[lang]/quran/[surah]`
-   - 114 Surah index with Arabic names, meanings, revelation place, and ayah count.
+   - Full 114 Surah index with Arabic names, meanings, revelation place, and ayah count.
+   - 30 Juz catalogue and navigation.
    - Interactive Surah reader with authentic Uthmani script and verified side-by-side Bengali/English translations.
-2. **Module C: Hadith Knowledge Center**
-   - Route: `/[lang]/hadith`
-   - Canonical Kutub al-Sittah collection overview with sanad/matn breakdown and authenticity grading badges.
-3. **Module D: Dua & Adhkar Library**
+3. **Module C: Hadith Knowledge Center**
+   - Routes: `/[lang]/hadith` & `/[lang]/hadith/[collection]`
+   - Canonical Kutub al-Sittah collection overview with sanad/matn breakdown, collection filters, and authenticity grading badges.
+4. **Module D: Dua & Adhkar Library**
    - Route: `/[lang]/duas`
    - Authentic supplications from *Hisnul Muslim* with Tashkeel Arabic, Bengali pronunciation, translation, and interactive digital tasbeeh counter.
-4. **Module E: Seerah & Prophetic Characteristics**
+   - `localStorage` persistence, daily reset, and haptic vibration feedback.
+5. **Module E: Seerah & Prophetic Characteristics**
    - Route: `/[lang]/seerah`
    - Chronological timeline based on *Ar-Raheeq Al-Makhtum* with Meccan and Medinan era filters and scholarly citations.
-5. **Module F: Unified Global Search**
+6. **Module F: Unified Global Search**
    - Route: `/[lang]/search`
-   - Cross-corpus search engine across Books, Quran Surahs, Hadith, Duas, and Seerah with real-time category filtering.
+   - Cross-corpus search engine across Books, Quran Surahs, Hadith, Duas, and Seerah with real-time category filtering and Arabic Tashkeel normalization.
+7. **Module G: Personal Study Library**
+   - Route: `/[lang]/bookmarks`
+   - Multi-tab storage for Quran Ayahs, Ebook Chapters, Reading Progress, and Personal Notes.
+8. **Module H: SEO & Structured Schema**
+   - Implemented `schema.org/Organization`, `schema.org/WebSite`, and `schema.org/Book` JSON-LD across all dynamic pages.
+   - Cleaned public header navigation; moved Design System to discreet footer link.

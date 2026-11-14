@@ -27,7 +27,9 @@ export interface ClassicalBook {
   category: { bn: string; ar: string; en: string; slug: string };
   description: { bn: string; ar: string; en: string };
   fullDescription?: { bn: string; ar: string; en: string };
-  chapterCount: number;
+  chapterCount: number; // Available transcribed digital chapters
+  totalCompiledChapters?: number; // Total chapters in full classical manuscript
+  editorialNotice?: { bn: string; ar: string; en: string };
   readingTimeMins: number;
   verifiedSource: string;
   reviewer: ReviewerInfo;
@@ -76,7 +78,13 @@ export const CLASSICAL_BOOKS: ClassicalBook[] = [
       ar: 'يعد كتاب رياض الصالحين من أكثر كتب الحديث تداولاً وقبولاً في مشارق الأرض ومغاربها، حيث رتبه الإمام النووي رحمه الله على الأبواب الفقهية والأخلاقية وركّز على الأحاديث الصحيحة والحسنة المقبولة للعمل اليومي.',
       en: 'The Gardens of the Righteous is one of the most widely read hadith collections in the world. Structured into thematic chapters covering faith, worship, and ethical conduct, it provides authentic guidance drawn primarily from Sahih al-Bukhari and Sahih Muslim.',
     },
-    chapterCount: 372,
+    chapterCount: 5,
+    totalCompiledChapters: 372,
+    editorialNotice: {
+      bn: 'ইমাম আন-নববী (রহ.) সংকলিত মূল রিয়াযুস সলেহিনে মোট ৩৭২টি অধ্যায় ও ১৮৯৬টি হাদিস রয়েছে। বর্তমান ডিজিটাল সংস্করণে প্রারম্ভিক ৫টি মৌলিক অধ্যায় সম্পূর্ণ নির্ভরযোগ্য তাহকিক ও অনুবাদসহ উন্মুক্ত করা হয়েছে। অবশিষ্ট ৩৬৭টি অধ্যায় গবেষক প্যানেল দ্বারা মূল পাণ্ডুলিপির আলোকে সম্পাদন ও প্রুফরিডিং প্রক্রিয়াটির মধ্য দিয়ে যাচ্ছে।',
+      ar: 'يضم الأصل المطبوع لكتاب رياض الصالحين للإمام النووي رحمه الله ٣٧٢ باباً ونحو ١٨٩٦ حديثاً. تم تدقيق وضبط الفصول الخمسة الأولى رقمياً، بينما تجري مراجعة بقية الأبواب تباعاً.',
+      en: 'The complete classical work by Imam An-Nawawi contains 372 chapters and approximately 1,896 hadiths. Currently, the first 5 foundational chapters have been digitally verified, transcribed, and proofread. The remaining 367 chapters are actively undergoing textual review against the physical print edition.',
+    },
     readingTimeMins: 45,
     verifiedSource: 'দারুসসালাম প্রকাশনী, রিয়াদ (তাহকিককৃত মূল সংস্করণ ২০০০)',
     reviewer: {
@@ -134,7 +142,13 @@ export const CLASSICAL_BOOKS: ClassicalBook[] = [
       ar: 'كتيب جامع وميسر في الأدعية والأذكار المأثورة عن رسول الله صلى الله عليه وسلم، مخرجة من أصح دواوين السنة النبوية، ليكون حصنًا منيعًا لكل مسلم.',
       en: 'Fortress of the Muslim is an indispensable pocket companion for every believer, containing authenticated prophetic supplications for day, night, prayers, and trials.',
     },
-    chapterCount: 132,
+    chapterCount: 4,
+    totalCompiledChapters: 132,
+    editorialNotice: {
+      bn: 'ড. সাঈদ আল-কাহতানী (রহ.) সংকলিত হিসনুল মুসলিমের মূল গ্রন্থে মোট ১৩২টি পরিচ্ছেদ রয়েছে। এখানে সর্বাধিক পঠিত প্রাত্যহিক ৪টি পরিচ্ছেদ তাহকিকসহ উন্মুক্ত রাখা হয়েছে; অবশিষ্ট পরিচ্ছেদসমূহ সম্পাদনাধীন।',
+      ar: 'يشتمل كتاب حصن المسلم على ١٣٢ باباً من الأذكار النبوية. نوفر حالياً الأبواب اليومية الأكثر تداولاً، مع استمرار إدراج بقية الأذكار تباعاً.',
+      en: 'The original Hisnul Muslim handbook contains 132 chapters of prophetic invocations. Core daily chapters are currently available with verified sources, with remaining chapters undergoing audit.',
+    },
     readingTimeMins: 15,
     verifiedSource: 'মাকতাবাতুল মাআরিফ রিয়াদ (সপ্তম পরিমার্জিত সংস্করণ)',
     reviewer: {
@@ -191,7 +205,13 @@ export const CLASSICAL_BOOKS: ClassicalBook[] = [
       ar: 'أعظم متون الحديث حفظاً ونفعاً، تشتمل على اثنين وأربعين حديثاً تمثل قواعد الإسلام وأصول الشريعة المحمدية السمحة.',
       en: 'An essential primer comprising 42 foundational statements of the Messenger of Allah ﷺ that encapsulate the core axioms of Islam.',
     },
-    chapterCount: 42,
+    chapterCount: 4,
+    totalCompiledChapters: 42,
+    editorialNotice: {
+      bn: 'ইমাম নববীর মূল সংকলনে মোট ৪২টি মৌলিক হাদিস রয়েছে। বর্তমান পর্বে প্রাথমিক ৪টি সুপরিচিত হাদিস সম্পূর্ণ ব্যাখ্যাসহ সন্নিবেশিত হয়েছে; অবশিষ্ট ৩৮টি হাদিস সম্পাদনাধীন।',
+      ar: 'تضم الأربعون النووية ٤٢ حديثاً جامعاً. نوفر حالياً الأحاديث الأربعة الأولى مع الاستمرار في إدراج بقية المتون.',
+      en: 'The compilation consists of 42 foundational hadiths. The opening four narrations are fully transcribed here, with the remaining 38 undergoing scholarly proofreading.',
+    },
     readingTimeMins: 12,
     verifiedSource: 'আল-মাকতাবাতুশ শামিলা তাহকিক সংস্করণ',
     reviewer: {
@@ -248,7 +268,13 @@ export const CLASSICAL_BOOKS: ClassicalBook[] = [
       ar: 'أشمل مصنف جمع فيه الإمام الترمذي صفات النبي ﷺ الخلقية والخُلقية، مسندة بأصح الأسانيد.',
       en: 'The definitive classical work detailing the physical attributes, noble character, daily habits, and personal possessions of the Prophet ﷺ.',
     },
-    chapterCount: 56,
+    chapterCount: 3,
+    totalCompiledChapters: 56,
+    editorialNotice: {
+      bn: 'ইমাম তিরমিজির মূল শামায়েল গ্রন্থে মোট ৫৬টি পরিচ্ছেদ রয়েছে। প্রাথমিক ৩টি মূল পরিচ্ছেদ ডিজিটাল সংস্করণে উন্মুক্ত রয়েছে।',
+      ar: 'يضم الشمائل المحمدية ٥٦ باباً، نوفر حالياً الأبواب الثلاثة الأولى.',
+      en: 'The full work comprises 56 thematic sections. The initial 3 sections are available in this release.',
+    },
     readingTimeMins: 25,
     verifiedSource: 'মাকতাবাতুল কাওসার (শায়খ আলবানীর তাহকিক সংস্করণ)',
     reviewer: {
@@ -298,7 +324,18 @@ export const CLASSICAL_BOOKS: ClassicalBook[] = [
       ar: 'كتاب جامع في البر والصلة ومكارم الأخلاق النبوية والآداب الإسلامية الرفيعة.',
       en: 'A dedicated compilation by Imam Bukhari on personal ethics, filial piety, and social etiquette.',
     },
-    chapterCount: 644,
+    fullDescription: {
+      bn: 'ইমাম বুখারির এক অনন্য সংকলন যা চরিত্র গঠন ও সামাজিক শিষ্টাচারের উপর বিশেষভাবে নিবেদিত।',
+      ar: 'كتاب عظيم في تهذيب النفوس ومكارم الأخلاق النبوية.',
+      en: 'Imam Bukhari\'s celebrated work focused exclusively on Islamic manners and etiquette.',
+    },
+    chapterCount: 3,
+    totalCompiledChapters: 644,
+    editorialNotice: {
+      bn: 'ইমাম বুখারির মূল গ্রন্থে ৬৪৪টি পরিচ্ছেদ রয়েছে। প্রাথমিক ৩টি মৌলিক পরিচ্ছেদ যাচাইকৃত অনুবাদসহ এখানে পরিবেশিত হয়েছে।',
+      ar: 'يشتمل الكتاب على ٦٤٤ باباً، وتتوفر حالياً الأبواب الثلاثة الأولى.',
+      en: 'The full compilation consists of 644 chapters. The initial three sections are currently verified and available.',
+    },
     readingTimeMins: 35,
     verifiedSource: 'মুহাম্মদ ফুয়াদ আব্দুল বাকি সংস্করণ (দারুল বাশার)',
     reviewer: {
@@ -348,7 +385,18 @@ export const CLASSICAL_BOOKS: ClassicalBook[] = [
       ar: 'نخبة أحاديث الأحكام الفقهية مع بيان درجتها وصحتها وتخريجها بدقة بالغة.',
       en: 'The definitive compilation of hadith evidences forming the foundation of Islamic jurisprudence.',
     },
-    chapterCount: 450,
+    fullDescription: {
+      bn: 'ইমাম ইবনে হাজার আল-আসকালানী ফিকহি আহকামের প্রমাণ্য হাদিসসমূহ এই কিতাবে পুঙ্খানুপুঙ্খভাবে সংকলন করেছেন।',
+      ar: 'أهم كتاب جمع أحاديث الأحكام الفقهية مع تخريجها وبيان عللها.',
+      en: 'The quintessential collection of legal hadiths providing source evidences for Islamic jurisprudence.',
+    },
+    chapterCount: 3,
+    totalCompiledChapters: 450,
+    editorialNotice: {
+      bn: 'মূল সংকলনে ৪৫০টি অনুচ্ছেদ রয়েছে। প্রাথমিক ৩টি অনুচ্ছেদ এখানে তাহকিকসহ উন্মুক্ত করা হয়েছে।',
+      ar: 'يشتمل الكتاب على ٤٥٠ فصلاً، نوفر منها الفصول الثلاثة الأولى.',
+      en: 'The original work contains 450 sections. The foundational 3 sections are available in this digital edition.',
+    },
     readingTimeMins: 30,
     verifiedSource: 'দারুল ফিকর তাহকিক সংস্করণ',
     reviewer: {
@@ -398,7 +446,13 @@ export const CLASSICAL_BOOKS: ClassicalBook[] = [
       ar: 'بيان حق الله على العبيد في التوحيد الخالص والتحذير من الشرك ومظاهره.',
       en: 'Clarification of the essential monotheistic creed and preservation of pure faith according to Quran and Sunnah.',
     },
-    chapterCount: 67,
+    chapterCount: 3,
+    totalCompiledChapters: 67,
+    editorialNotice: {
+      bn: 'মূল কিতাবে ৬৭টি পরিচ্ছেদ রয়েছে। প্রারম্ভিক ৩টি মূল অধ্যায় এখানে সম্পূর্ণ তাহকিকসহ সংকলিত হয়েছে।',
+      ar: 'يشتمل الكتاب على ٦٧ باباً، نوفر منها الأبواب الثلاثة الأولى.',
+      en: 'The complete treatise contains 67 chapters. The initial 3 chapters are verified and published here.',
+    },
     readingTimeMins: 15,
     verifiedSource: 'দারুসসালাম প্রকাশনী সংস্করণ',
     reviewer: {

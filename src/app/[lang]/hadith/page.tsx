@@ -79,9 +79,11 @@ export default function HadithIndexPage({
                   </div>
 
                   <div>
-                    <h4 className="font-bold text-lg text-primary">
-                      {lang === 'bn' ? col.nameBengali : col.nameEnglish}
-                    </h4>
+                    <Link href={`/${lang}/hadith/${col.slug}`}>
+                      <h4 className="font-bold text-lg text-primary hover:text-accent transition-colors">
+                        {lang === 'bn' ? col.nameBengali : col.nameEnglish}
+                      </h4>
+                    </Link>
                     <p className="text-xs text-text-muted mt-0.5">
                       {lang === 'bn' ? col.authorBengali : col.authorEnglish} ({col.deathYearHijri})
                     </p>
@@ -99,10 +101,10 @@ export default function HadithIndexPage({
                   </span>
 
                   <Link
-                    href={`/${lang}/ebooks`}
+                    href={`/${lang}/hadith/${col.slug}`}
                     className="text-primary hover:text-accent font-semibold inline-flex items-center gap-1 transition-colors"
                   >
-                    <span>{lang === 'bn' ? 'কিতাব পড়ুন' : 'Read'}</span>
+                    <span>{lang === 'bn' ? 'হাদিস দেখুন' : 'Explore'}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>

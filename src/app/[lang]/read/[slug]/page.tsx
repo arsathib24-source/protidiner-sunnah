@@ -60,10 +60,18 @@ export default async function ReaderPage({
 
   // Fetch book from verified reader contents
   let readerBook: ReaderBook | undefined = VERIFIED_READER_BOOKS[slug];
+  const matchedClassical = CLASSICAL_BOOKS.find((b) => b.slug === slug);
+
+  if (readerBook && matchedClassical) {
+    readerBook = {
+      ...readerBook,
+      totalCompiledChapters: matchedClassical.totalCompiledChapters,
+    };
+  }
 
   // If not in verified full-text dictionary, build a fallback reader book from CLASSICAL_BOOKS
   if (!readerBook) {
-    const fallback = CLASSICAL_BOOKS.find((b) => b.slug === slug);
+    const fallback = matchedClassical;
     if (!fallback) {
       notFound();
     }
@@ -74,6 +82,7 @@ export default async function ReaderPage({
       author: fallback.author,
       category: fallback.category,
       verifiedSource: fallback.verifiedSource,
+      totalCompiledChapters: fallback.totalCompiledChapters,
       chapters: fallback.chapters.map((ch) => ({
         number: ch.number,
         slug: ch.slug,

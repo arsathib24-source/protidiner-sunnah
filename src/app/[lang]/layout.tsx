@@ -79,6 +79,32 @@ export default async function LocaleLayout({
         <Header locale={lang} dict={dict} siteSettings={settings} />
         <main className="flex-1">{children}</main>
         <Footer locale={lang} dict={dict} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@graph': [
+                {
+                  '@type': 'Organization',
+                  '@id': 'https://protidiner-sunnah-9ceq.vercel.app/#organization',
+                  name: 'প্রতিদিনের সুন্নাহ (Protidiner Sunnah)',
+                  url: 'https://protidiner-sunnah-9ceq.vercel.app',
+                  description: 'Authentic Multilingual Islamic Knowledge & Classical Ebook Platform',
+                },
+                {
+                  '@type': 'WebSite',
+                  '@id': 'https://protidiner-sunnah-9ceq.vercel.app/#website',
+                  url: 'https://protidiner-sunnah-9ceq.vercel.app',
+                  name: dict.brand.name,
+                  publisher: {
+                    '@id': 'https://protidiner-sunnah-9ceq.vercel.app/#organization',
+                  },
+                },
+              ],
+            }),
+          }}
+        />
       </body>
     </html>
   );

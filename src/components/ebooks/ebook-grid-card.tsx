@@ -27,6 +27,18 @@ export const EbookGridCard: React.FC<EbookGridCardProps> = ({
     en: 'EN',
   };
 
+  const chapterDisplay = book.totalCompiledChapters && book.totalCompiledChapters !== book.chapterCount
+    ? locale === 'bn'
+      ? `${book.chapterCount}টি উন্মুক্ত (মূল ${book.totalCompiledChapters})`
+      : locale === 'ar'
+      ? `${book.chapterCount} فصول (من ${book.totalCompiledChapters})`
+      : `${book.chapterCount} ch. (of ${book.totalCompiledChapters})`
+    : locale === 'bn'
+    ? `${book.chapterCount} অধ্যায়`
+    : locale === 'ar'
+    ? `${book.chapterCount} فصول`
+    : `${book.chapterCount} ch.`;
+
   return (
     <div className="group relative flex flex-col justify-between rounded-3xl bg-surface border border-border/80 shadow-card hover:shadow-card-hover hover:border-accent/60 transition-all duration-300 overflow-hidden">
       {/* 1. Book Cover Preview Area */}
@@ -90,9 +102,9 @@ export const EbookGridCard: React.FC<EbookGridCardProps> = ({
         {/* 3. Metadata & Read Online CTA */}
         <div className="pt-4 border-t border-border/60 flex items-center justify-between">
           <div className="flex items-center gap-3 text-xs text-text-muted">
-            <span className="flex items-center gap-1" title="মোট অধ্যায়">
+            <span className="flex items-center gap-1" title={book.totalCompiledChapters ? `ডিজিটাল সংস্করণে ${book.chapterCount}টি উন্মুক্ত, মূল কিতাবে মোট ${book.totalCompiledChapters}টি অধ্যায়` : undefined}>
               <Layers className="w-3.5 h-3.5 text-accent-dark" />
-              <span>{book.chapterCount} {locale === 'bn' ? 'অধ্যায়' : locale === 'ar' ? 'أبواب' : 'chs'}</span>
+              <span>{chapterDisplay}</span>
             </span>
             <span className="flex items-center gap-1" title="আনুমানিক পাঠ সময়">
               <Clock className="w-3.5 h-3.5 text-accent-dark" />

@@ -4,7 +4,7 @@ import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { 
   Search, BookOpen, Sparkles, Heart, FileText, ArrowRight, 
-  Filter, X 
+  Filter, X, ShieldCheck 
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -29,6 +29,27 @@ interface UnifiedSearchViewProps {
   initialQuery?: string;
 }
 
+// Arabic normalization helper: removes harakat/tashkeel and unifies alifs & yaa
+function normalizeArabicText(text: string): string {
+  if (!text) return '';
+  return text
+    .replace(/[\u064B-\u065F\u0670]/g, '') // remove fathah, dammah, kasrah, sukun, shaddah, tanween, dagger alif
+    .replace(/[\u0622\u0623\u0625]/g, '\u0627') // alif with hamza / madda -> plain alif
+    .replace(/\u0629/g, '\u0647') // ta marbuta -> ha
+    .replace(/\u0649/g, '\u064A') // alif maqsura -> ya
+    .replace(/[\u200B-\u200D\uFEFF]/g, '') // remove zero-width spaces
+    .toLowerCase();
+}
+
+const SEARCH_SUGGESTIONS = [
+  { label: 'সূরা আল-ফাতিহা', query: 'ফাতিহা' },
+  { label: 'নিয়ত সম্পর্কিত হাদিস', query: 'নিয়ত' },
+  { label: 'সকালের দু‘আ', query: 'সকাল' },
+  { label: 'মি‘রাজ রজনী', query: 'মিরাজ' },
+  { label: 'রিয়াদুস সালেহীন', query: 'রিয়াদুস' },
+  { label: 'আয়াতুল কুরসী', query: 'কুরসী' },
+];
+
 export const UnifiedSearchView: React.FC<UnifiedSearchViewProps> = ({ locale, initialQuery = '' }) => {
   const [query, setQuery] = useState(initialQuery);
   const [activeFilter, setActiveFilter] = useState<'all' | 'book' | 'quran' | 'hadith' | 'dua' | 'seerah'>('all');
@@ -36,7 +57,7 @@ export const UnifiedSearchView: React.FC<UnifiedSearchViewProps> = ({ locale, in
   const allItems: SearchResultItem[] = useMemo(() => {
     const list: SearchResultItem[] = [];
 
-    // Books
+    // 1. Books
     CLASSICAL_BOOKS.forEach((b) => {
       list.push({
         id: `book-${b.slug}`,
@@ -49,20 +70,20 @@ export const UnifiedSearchView: React.FC<UnifiedSearchViewProps> = ({ locale, in
       });
     });
 
-    // Quran Surahs
+    // 2. Quran Surahs
     SURAH_LIST.forEach((s) => {
       list.push({
         id: `quran-${s.number}`,
         type: 'quran',
         typeLabelBn: 'আল-কুরআন',
         title: `সূরা ${s.nameBengali} (${s.nameArabic})`,
-        subtitle: `${s.meaningBengali} • ${s.revelationTypeBn} • ${s.totalAyahs} আয়াত`,
+        subtitle: `${s.meaningBengali} • ${s.revelationTypeBn} • ${s.totalAyahs} আয়াত • পারা ${s.juzStart}`,
         snippet: `পবিত্র কুরআনুল কারীমের ${s.number} নম্বর সূরা (${s.nameEnglish})। মূল উসমানী পাঠ ও নির্ভরযোগ্য বাংলা তর্জমা।`,
         href: `/${locale}/quran/${s.slug}`,
       });
     });
 
-    // Hadiths
+    // 3. Hadiths
     FEATURED_HADITHS.forEach((h) => {
       list.push({
         id: `hadith-${h.id}`,
@@ -70,12 +91,12 @@ export const UnifiedSearchView: React.FC<UnifiedSearchViewProps> = ({ locale, in
         typeLabelBn: 'হাদিস',
         title: `${h.collectionNameBn} — হাদিস নং ${h.hadithNumber}`,
         subtitle: `বর্ণনাকারী: ${h.narratorBn} • সনদ মান: ${h.gradeBn}`,
-        snippet: `${h.bengaliText} (${h.arabicText.slice(0, 80)}...)`,
-        href: `/${locale}/hadith`,
+        snippet: `${h.bengaliText} (${h.arabicText.slice(0, 100)}...)`,
+        href: `/${locale}/hadith/${h.collectionSlug || 'bukhari'}`,
       });
     });
 
-    // Duas
+    // 4. Duas & Adhkar
     AUTHENTIC_DUAS.forEach((d) => {
       list.push({
         id: `dua-${d.id}`,
@@ -88,14 +109,14 @@ export const UnifiedSearchView: React.FC<UnifiedSearchViewProps> = ({ locale, in
       });
     });
 
-    // Seerah
+    // 5. Seerah Milestones
     SEERAH_TIMELINE.forEach((s) => {
       list.push({
         id: `seerah-${s.id}`,
         type: 'seerah',
         typeLabelBn: 'সীরাতুন্নবী ﷺ',
         title: s.titleBn,
-        subtitle: `${s.eraTitleBn} • ${s.yearHijri} (${s.yearCE})`,
+        subtitle: `${s.eraTitleBn} • ${s.yearHijri} (${s.yearCE}) • ${s.referenceSource}`,
         snippet: s.summaryBn,
         href: `/${locale}/seerah`,
       });
@@ -105,16 +126,36 @@ export const UnifiedSearchView: React.FC<UnifiedSearchViewProps> = ({ locale, in
   }, [locale]);
 
   const filteredResults = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const rawQ = query.trim();
+    if (!rawQ) {
+      if (activeFilter === 'all') return allItems;
+      return allItems.filter((item) => item.type === activeFilter);
+    }
+
+    const qLower = rawQ.toLowerCase();
+    const qNormalizedArabic = normalizeArabicText(rawQ);
+
     return allItems.filter((item) => {
       if (activeFilter !== 'all' && item.type !== activeFilter) {
         return false;
       }
-      if (!q) return true;
+
+      const matchStandard =
+        item.title.toLowerCase().includes(qLower) ||
+        item.subtitle.toLowerCase().includes(qLower) ||
+        item.snippet.toLowerCase().includes(qLower);
+
+      if (matchStandard) return true;
+
+      // Check normalized Arabic
+      const titleNorm = normalizeArabicText(item.title);
+      const subNorm = normalizeArabicText(item.subtitle);
+      const snipNorm = normalizeArabicText(item.snippet);
+
       return (
-        item.title.toLowerCase().includes(q) ||
-        item.subtitle.toLowerCase().includes(q) ||
-        item.snippet.toLowerCase().includes(q)
+        titleNorm.includes(qNormalizedArabic) ||
+        subNorm.includes(qNormalizedArabic) ||
+        snipNorm.includes(qNormalizedArabic)
       );
     });
   }, [allItems, query, activeFilter]);
@@ -122,23 +163,44 @@ export const UnifiedSearchView: React.FC<UnifiedSearchViewProps> = ({ locale, in
   return (
     <div className="space-y-8">
       {/* Search Input Bar */}
-      <div className="relative">
-        <Search className="w-5 h-5 text-accent-dark absolute left-4 top-1/2 -translate-y-1/2" />
-        <Input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder={locale === 'bn' ? 'কুরআন, হাদিস, ই-বুক বা দু‘আ অনুসন্ধান করুন...' : 'Search books, Quran, Hadith, Duas...'}
-          className="ps-12 pe-12 py-6 text-base rounded-2xl bg-surface border-border shadow-md focus:border-primary"
-        />
-        {query && (
-          <button
-            onClick={() => setQuery('')}
-            className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full text-text-muted hover:text-foreground"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        )}
+      <div className="space-y-3">
+        <div className="relative">
+          <Search className="w-5 h-5 text-accent-dark absolute left-4 top-1/2 -translate-y-1/2" />
+          <Input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={
+              locale === 'bn'
+                ? 'পবিত্র কুরআন, হাদিস, ই-বুক বা দু‘আ অনুসন্ধান করুন (বাংলা, আরবি বা ইংরেজি)...'
+                : 'Search books, Quran Surahs, Hadith, Duas...'
+            }
+            className="ps-12 pe-12 py-6 text-base rounded-2xl bg-surface border-border shadow-md focus:border-primary"
+          />
+          {query && (
+            <button
+              onClick={() => setQuery('')}
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-1.5 rounded-full text-text-muted hover:text-foreground"
+              aria-label="মুছে ফেলুন"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+
+        {/* Quick Search Suggestions */}
+        <div className="flex items-center gap-2 flex-wrap text-xs text-text-muted">
+          <span className="font-semibold">{locale === 'bn' ? 'প্রস্তাবিত:' : 'Suggestions:'}</span>
+          {SEARCH_SUGGESTIONS.map((item) => (
+            <button
+              key={item.query}
+              onClick={() => setQuery(item.query)}
+              className="px-2.5 py-1 rounded-lg bg-surface hover:bg-accent/15 border border-border text-foreground hover:text-accent-dark transition-colors"
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Filter Tabs */}
@@ -201,50 +263,68 @@ export const UnifiedSearchView: React.FC<UnifiedSearchViewProps> = ({ locale, in
               : 'bg-surface text-text-muted hover:text-primary border border-border'
           }`}
         >
-          সীরাতুন্নবী
+          সীরাত
         </button>
       </div>
 
       {/* Results List */}
       <div className="space-y-4">
-        {filteredResults.length > 0 ? (
+        {filteredResults.length === 0 ? (
+          <div className="text-center py-16 bg-surface rounded-3xl border border-dashed border-border space-y-3">
+            <Search className="w-10 h-10 text-text-muted mx-auto" />
+            <h3 className="text-lg font-bold font-bengali-heading text-primary">
+              {locale === 'bn' ? 'কোনো ফলাফল পাওয়া যায়নি' : 'No results found'}
+            </h3>
+            <p className="text-xs text-text-muted max-w-sm mx-auto">
+              {locale === 'bn'
+                ? `"${query}" এর সাথে মিলে এমন কোনো কিতাব বা রেফারেন্স পাওয়া যায়নি। বানান পরীক্ষা করুন অথবা উপরের প্রস্তাবিত শব্দ ব্যবহার করুন।`
+                : 'Try searching with different keywords or browse our categories.'}
+            </p>
+          </div>
+        ) : (
           filteredResults.map((item) => (
             <Link
               key={item.id}
               href={item.href}
-              className="block bg-surface p-6 rounded-3xl border border-border hover:border-primary/40 transition-all shadow-sm hover:shadow-card group"
+              className="block p-5 sm:p-6 bg-surface hover:bg-surface-muted/40 rounded-2xl border border-border hover:border-primary/40 transition-all shadow-sm group"
             >
-              <div className="flex items-center justify-between gap-2 mb-2">
-                <Badge variant="secondary" size="sm">
-                  {item.typeLabelBn}
-                </Badge>
-                <span className="text-primary group-hover:text-accent font-semibold text-xs inline-flex items-center gap-1 transition-colors">
-                  <span>দেখুন</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </span>
-              </div>
+              <div className="flex items-start justify-between gap-4">
+                <div className="space-y-2 flex-1">
+                  <div className="flex items-center gap-2">
+                    <Badge
+                      variant={
+                        item.type === 'quran'
+                          ? 'accent'
+                          : item.type === 'hadith'
+                          ? 'secondary'
+                          : item.type === 'dua'
+                          ? 'primary'
+                          : 'outline'
+                      }
+                      size="sm"
+                    >
+                      {item.typeLabelBn}
+                    </Badge>
+                    <span className="text-xs text-text-muted font-medium">
+                      {item.subtitle}
+                    </span>
+                  </div>
 
-              <h4 className="text-base sm:text-lg font-bold font-bengali-heading text-primary group-hover:text-primary transition-colors">
-                {item.title}
-              </h4>
-              <p className="text-xs text-text-muted mt-0.5 mb-2 font-mono">
-                {item.subtitle}
-              </p>
-              <p className="text-xs sm:text-sm text-foreground/80 font-bengali-body line-clamp-2 leading-relaxed">
-                {item.snippet}
-              </p>
+                  <h4 className="text-base sm:text-lg font-bold font-bengali-heading text-primary group-hover:text-accent-dark transition-colors">
+                    {item.title}
+                  </h4>
+
+                  <p className="text-xs sm:text-sm text-foreground/80 line-clamp-2 leading-relaxed">
+                    {item.snippet}
+                  </p>
+                </div>
+
+                <div className="w-8 h-8 rounded-full bg-primary/5 group-hover:bg-primary group-hover:text-background flex items-center justify-center shrink-0 text-text-muted transition-colors mt-2">
+                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                </div>
+              </div>
             </Link>
           ))
-        ) : (
-          <div className="py-16 text-center bg-surface rounded-3xl border border-border p-8 space-y-3">
-            <Search className="w-10 h-10 text-text-muted mx-auto" />
-            <h4 className="font-bold text-base text-primary">
-              {locale === 'bn' ? 'কোনো ফলাফল পাওয়া যায়নি' : 'No Results Found'}
-            </h4>
-            <p className="text-xs text-text-muted max-w-sm mx-auto">
-              অনুগ্রহ করে অন্য শব্দ বা বানান দিয়ে অনুসন্ধান করার চেষ্টা করুন।
-            </p>
-          </div>
         )}
       </div>
     </div>

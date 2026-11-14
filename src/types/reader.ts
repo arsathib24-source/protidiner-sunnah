@@ -57,5 +57,6 @@ export interface ReaderBook {
   author: { bn: string; ar: string; en: string };
   category: { bn: string; ar: string; en: string };
   verifiedSource: string;
+  totalCompiledChapters?: number;
   chapters: ReaderChapter[];
 }

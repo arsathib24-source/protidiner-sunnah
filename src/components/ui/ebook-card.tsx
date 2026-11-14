@@ -17,6 +17,7 @@ export interface EbookCardProps {
   description?: string;
   coverImageUrl?: string;
   chapterCount?: number;
+  totalCompiledChapters?: number;
   readingTimeMins?: number;
   verifiedSource?: string;
   progressPercentage?: number;
@@ -35,7 +36,8 @@ export const EbookCard: React.FC<EbookCardProps> = ({
   author,
   category,
   description,
-  chapterCount = 12,
+  chapterCount = 5,
+  totalCompiledChapters,
   readingTimeMins = 15,
   verifiedSource = 'যাচাইকৃত মূল পাঠ',
   progressPercentage,
@@ -56,6 +58,18 @@ export const EbookCard: React.FC<EbookCardProps> = ({
   };
 
   const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
+
+  const chapterDisplay = totalCompiledChapters && totalCompiledChapters !== chapterCount
+    ? lang === 'bn'
+      ? `${chapterCount}টি (মূল ${totalCompiledChapters})`
+      : lang === 'ar'
+      ? `${chapterCount} فصول (من ${totalCompiledChapters})`
+      : `${chapterCount} ch. (of ${totalCompiledChapters})`
+    : lang === 'bn'
+    ? `${chapterCount} অধ্যায়`
+    : lang === 'ar'
+    ? `${chapterCount} فصول`
+    : `${chapterCount} ch.`;
 
   if (layout === 'horizontal') {
     return (
@@ -115,9 +129,9 @@ export const EbookCard: React.FC<EbookCardProps> = ({
 
           <div className="flex items-center justify-between pt-3 mt-3 border-t border-border/50 text-[11px] text-text-muted">
             <div className="flex items-center gap-3">
-              <span className="flex items-center gap-1">
+              <span className="flex items-center gap-1" title={totalCompiledChapters ? `ডিজিটাল সংস্করণে ${chapterCount}টি প্রস্তুত, মূল কিতাবে ${totalCompiledChapters}টি` : undefined}>
                 <Layers className="w-3.5 h-3.5 text-accent-dark" />
-                {chapterCount} {lang === 'bn' ? 'অধ্যায়' : lang === 'ar' ? 'أبواب' : 'chapters'}
+                {chapterDisplay}
               </span>
               <span className="flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5 text-accent-dark" />
@@ -181,22 +195,22 @@ export const EbookCard: React.FC<EbookCardProps> = ({
           </h4>
         </div>
 
-        {/* Verified Source Ribbon */}
-        <div className="relative z-10 flex items-center justify-between text-[11px] text-accent-light/90 pt-2 border-t border-white/10">
-          <span className="flex items-center gap-1 truncate max-w-[200px]">
-            <ShieldCheck className="w-3.5 h-3.5 text-accent flex-shrink-0" />
-            <span className="truncate">{verifiedSource}</span>
+        {/* Bottom Ribbon / Verified Stamp */}
+        <div className="relative z-10 flex items-center justify-between text-[11px] text-accent/90 pt-1 border-t border-accent/20">
+          <span className="flex items-center gap-1">
+            <ShieldCheck className="w-3 h-3 text-accent" />
+            <span className="truncate max-w-[160px]">{verifiedSource}</span>
           </span>
-          <span className="opacity-75">{author}</span>
+          <span className="font-mono text-[10px]">{chapterDisplay}</span>
         </div>
       </div>
 
-      {/* Progress Bar (if reading in progress) */}
+      {/* Progress Bar (Optional, for Continuing Reading) */}
       {typeof progressPercentage === 'number' && (
-        <div className="w-full bg-border/60 h-1.5">
+        <div className="h-1 w-full bg-border">
           <div
-            className="bg-accent h-1.5 transition-all duration-300"
-            style={{ width: `${Math.min(Math.max(progressPercentage, 0), 100)}%` }}
+            className="h-full bg-accent transition-all duration-300"
+            style={{ width: `${progressPercentage}%` }}
           />
         </div>
       )}
@@ -221,9 +235,9 @@ export const EbookCard: React.FC<EbookCardProps> = ({
         {/* Metadata Footer & CTA */}
         <div className="pt-4 mt-4 border-t border-border/60 flex items-center justify-between">
           <div className="flex items-center gap-3 text-xs text-text-muted">
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1" title={totalCompiledChapters ? `ডিজিটাল সংস্করণে ${chapterCount}টি প্রস্তুত, মূল কিতাবে ${totalCompiledChapters}টি` : undefined}>
               <Layers className="w-3.5 h-3.5 text-accent-dark" />
-              <span>{chapterCount}</span>
+              <span>{chapterDisplay}</span>
             </span>
             <span className="flex items-center gap-1">
               <Clock className="w-3.5 h-3.5 text-accent-dark" />

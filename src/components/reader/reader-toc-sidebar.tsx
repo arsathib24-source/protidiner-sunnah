@@ -10,6 +10,7 @@ interface ReaderTOCSidebarProps {
   onClose: () => void;
   chapters: ReaderChapter[];
   activeChapterNumber: number;
+  totalCompiledChapters?: number;
   onSelectChapter: (chapterNumber: number) => void;
   locale: string;
 }
@@ -19,6 +20,7 @@ export const ReaderTOCSidebar: React.FC<ReaderTOCSidebarProps> = ({
   onClose,
   chapters,
   activeChapterNumber,
+  totalCompiledChapters,
   onSelectChapter,
   locale,
 }) => {
@@ -58,7 +60,9 @@ export const ReaderTOCSidebar: React.FC<ReaderTOCSidebarProps> = ({
                 সূচিপত্র (Table of Contents)
               </h3>
               <p className="text-[11px] text-text-muted">
-                মোট {chapters.length} টি পরিচ্ছেদ
+                {totalCompiledChapters && totalCompiledChapters !== chapters.length
+                  ? `ডিজিটাল সংস্করণে ${chapters.length}টি প্রস্তুত (মূল কিতাবে ${totalCompiledChapters}টি)`
+                  : `মোট ${chapters.length} টি পরিচ্ছেদ`}
               </p>
             </div>
           </div>

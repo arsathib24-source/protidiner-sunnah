@@ -120,7 +120,12 @@ export const Footer: React.FC<FooterProps> = ({ locale, dict }) => {
           <p>{dict.footer.rights}</p>
           <div className="flex items-center gap-1.5 text-background/75">
             <span>{locale === 'bn' ? 'স্থাপত্য:' : locale === 'ar' ? 'الهندسة والتصميم:' : 'Architecture:'}</span>
-            <span className="font-semibold text-accent">Protidiner Sunnah Design System</span>
+            <Link
+              href={`/${locale}/design-system`}
+              className="font-semibold text-accent hover:underline hover:text-accent-light transition-colors"
+            >
+              Protidiner Sunnah Design System
+            </Link>
           </div>
         </div>
       </div>

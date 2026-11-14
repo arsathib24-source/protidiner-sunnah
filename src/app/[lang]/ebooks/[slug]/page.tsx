@@ -215,7 +215,15 @@ export default async function EbookDetailPage({
                   <span className="text-xs font-medium text-text-muted flex items-center gap-1">
                     <Layers className="w-3.5 h-3.5 text-accent-dark" />
                     <span>
-                      {lang === 'bn' ? `${book.chapterCount} টি অধ্যায়` : lang === 'ar' ? `${book.chapterCount} فصول` : `${book.chapterCount} Chapters`}
+                      {book.totalCompiledChapters && book.totalCompiledChapters !== book.chapterCount
+                        ? lang === 'bn'
+                          ? `${book.chapterCount}টি পরিচ্ছেদ উন্মুক্ত (মূল কিতাবে ${book.totalCompiledChapters}টি)`
+                          : lang === 'ar'
+                          ? `${book.chapterCount} فصول متاحة رقمياً (من ${book.totalCompiledChapters})`
+                          : `${book.chapterCount} Chapters Available (of ${book.totalCompiledChapters})`
+                        : lang === 'bn'
+                        ? `${book.chapterCount} টি অধ্যায়`
+                        : `${book.chapterCount} Chapters`}
                     </span>
                   </span>
                 </div>
@@ -323,9 +331,30 @@ export default async function EbookDetailPage({
               </h2>
             </div>
             <span className="text-xs text-text-muted font-semibold">
-              {lang === 'bn' ? `মোট ${book.chapters.length} টি পরিচ্ছেদ` : lang === 'ar' ? `${book.chapters.length} بابًا وفصلًا` : `${book.chapters.length} Chapters`}
+              {book.totalCompiledChapters && book.totalCompiledChapters !== book.chapters.length
+                ? lang === 'bn'
+                  ? `${book.chapters.length}টি পরিচ্ছেদ উন্মুক্ত (মূল কিতাবে ${book.totalCompiledChapters}টি)`
+                  : lang === 'ar'
+                  ? `${book.chapters.length} فصول من أصل ${book.totalCompiledChapters}`
+                  : `${book.chapters.length} Chapters Ready (of ${book.totalCompiledChapters})`
+                : lang === 'bn'
+                ? `মোট ${book.chapters.length} টি পরিচ্ছেদ`
+                : `${book.chapters.length} Chapters`}
             </span>
           </div>
+
+          {/* Editorial Verification Notice Callout */}
+          {book.editorialNotice && (
+            <div className="p-4 rounded-2xl bg-secondary/15 border border-secondary/30 text-xs sm:text-sm text-foreground/85 leading-relaxed flex items-start gap-3">
+              <ShieldCheck className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <span className="font-bold text-primary block">
+                  {lang === 'bn' ? 'তাহকিক ও ডিজিটাল সংস্করণ সংক্রান্ত সম্পাদকীয় তথ্য:' : 'Editorial Notice on Digital Verification:'}
+                </span>
+                <p>{book.editorialNotice[lang] || book.editorialNotice.bn}</p>
+              </div>
+            </div>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {book.chapters.map((chapter) => (
@@ -353,6 +382,32 @@ export default async function EbookDetailPage({
             ))}
           </div>
         </div>
+
+        {/* JSON-LD Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Book',
+              name: book.title[lang] || book.title.bn,
+              headline: book.title[lang] || book.title.bn,
+              alternativeHeadline: book.title.ar,
+              author: {
+                '@type': 'Person',
+                name: book.author[lang] || book.author.bn,
+              },
+              inLanguage: lang,
+              description: book.description[lang] || book.description.bn,
+              numberOfPages: book.chapterCount,
+              publisher: {
+                '@type': 'Organization',
+                name: 'প্রতিদিনের সুন্নাহ',
+              },
+              datePublished: book.publishedAt,
+            }),
+          }}
+        />
       </div>
     </div>
   );
