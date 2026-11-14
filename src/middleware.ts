@@ -10,10 +10,11 @@ export function middleware(request: NextRequest) {
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   );
 
-  // Exclude static assets, api routes, icons
+  // Exclude static assets, api routes, auth callbacks, and static files
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
+    pathname.startsWith('/auth') ||
     pathname.startsWith('/static') ||
     pathname.includes('.')
   ) {

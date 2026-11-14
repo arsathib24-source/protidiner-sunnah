@@ -53,12 +53,12 @@ export const Header: React.FC<HeaderProps> = ({ locale, dict, siteSettings }) =>
   const showTagline = siteSettings?.showTagline !== false;
 
   const navLinks = [
-    { href: `/${locale}`, label: dict.nav.home },
     { href: `/${locale}/ebooks`, label: dict.nav.library },
-    { href: `/${locale}/categories`, label: dict.nav.categories },
-    { href: `/${locale}#todays-sunnah`, label: dict.nav.todaysSunnah || (locale === 'bn' ? 'আজকের সুন্নাহ' : locale === 'ar' ? 'سنة اليوم' : "Today's Sunnah") },
+    { href: `/${locale}/quran`, label: locale === 'bn' ? 'আল-কুরআন' : locale === 'ar' ? 'القرآن الكريم' : 'Quran' },
+    { href: `/${locale}/hadith`, label: locale === 'bn' ? 'হাদিস' : locale === 'ar' ? 'الحديث' : 'Hadith' },
+    { href: `/${locale}/duas`, label: locale === 'bn' ? 'দু‘আ ও যিকির' : locale === 'ar' ? 'الأذكار' : 'Duas' },
+    { href: `/${locale}/seerah`, label: locale === 'bn' ? 'সীরাত' : locale === 'ar' ? 'السيرة' : 'Seerah' },
     { href: `/${locale}/bookmarks`, label: dict.nav.bookmarks },
-    { href: `/${locale}/design-system`, label: dict.nav.designSystem || (locale === 'bn' ? 'ডিজাইন সিস্টেম' : locale === 'ar' ? 'نظام التصميم' : 'Design System') },
   ];
 
   return (
@@ -92,7 +92,7 @@ export const Header: React.FC<HeaderProps> = ({ locale, dict, siteSettings }) =>
           />
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+          <nav className="hidden md:flex items-center gap-5 lg:gap-7">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -107,7 +107,7 @@ export const Header: React.FC<HeaderProps> = ({ locale, dict, siteSettings }) =>
           {/* Header Right Actions */}
           <div className="flex items-center gap-3">
             <Link
-              href={`/${locale}#search-section`}
+              href={`/${locale}/search`}
               className="p-2.5 rounded-xl text-text-muted hover:text-primary hover:bg-surface transition-colors border border-transparent hover:border-border"
               aria-label="Search Library"
             >

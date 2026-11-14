@@ -42,44 +42,38 @@ export async function getAdminSession(): Promise<AdminAuthResult> {
         error: authError,
       } = await supabase.auth.getUser();
 
-      if (authError || !user) {
-        return { isAuthenticated: false, isAdmin: false, isReviewer: false, user: null };
+      if (user && !authError) {
+        // Query database profile & verify server-side role
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('id, full_name, avatar_url, roles(name)')
+          .eq('id', user.id)
+          .single();
+
+        if (profile && !profileError) {
+          const profileData = profile as any;
+          const roleName = profileData.roles?.name || 'reader';
+          const isAdmin = roleName === 'admin';
+          const isReviewer = roleName === 'reviewer' || isAdmin;
+
+          if (isAdmin || isReviewer) {
+            return {
+              isAuthenticated: true,
+              isAdmin,
+              isReviewer,
+              user: {
+                id: user.id,
+                email: user.email || '',
+                name: profileData.full_name || 'মুহতারাম অ্যাডমিন',
+                role: roleName,
+                isSuperAdmin: isAdmin,
+                avatarUrl: profileData.avatar_url || undefined,
+                isDemoSession: false,
+              },
+            };
+          }
+        }
       }
-
-      // Query database profile & verify server-side role
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('id, full_name, avatar_url, roles(name)')
-        .eq('id', user.id)
-        .single();
-
-      if (profileError || !profile) {
-        return { isAuthenticated: true, isAdmin: false, isReviewer: false, user: null, error: 'Profile not found' };
-      }
-
-      const profileData = profile as any;
-      const roleName = profileData.roles?.name || 'reader';
-      const isAdmin = roleName === 'admin';
-      const isReviewer = roleName === 'reviewer' || isAdmin;
-
-      if (!isAdmin && !isReviewer) {
-        return { isAuthenticated: true, isAdmin: false, isReviewer: false, user: null, error: 'Unauthorized role' };
-      }
-
-      return {
-        isAuthenticated: true,
-        isAdmin,
-        isReviewer,
-        user: {
-          id: user.id,
-          email: user.email || '',
-          name: profileData.full_name || 'মুহতারাম অ্যাডমিন',
-          role: roleName,
-          isSuperAdmin: isAdmin,
-          avatarUrl: profileData.avatar_url || undefined,
-          isDemoSession: false,
-        },
-      };
     } catch {
       // Fall through to cookie verification
     }

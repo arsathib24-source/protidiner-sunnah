@@ -81,13 +81,11 @@ export default async function ReaderPage({
         durationMins: ch.durationMins,
         paragraphs: [
           {
-            id: `p-${ch.number}-1`,
-            type: 'hadith',
-            arabic: '«إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى»',
-            bengali: 'আমিরুল মুমিনিন উমর ইবনুল খাত্তাব (রা.) বলেন: আমি রাসুলুল্লাহ ﷺ-কে বলতে শুনেছি: «সকল আমল নিয়তের উপর নির্ভরশীল; আর প্রত্যেক ব্যক্তি তাই পাবে যার সে নিয়ত করেছে...»',
-            english: 'Narrated Umar ibn al-Khattab: I heard the Messenger of Allah ﷺ say: "Actions are according to intentions..."',
-            source: 'সহিহ বুখারি: ১',
-            grade: 'সহিহ',
+            id: `p-${ch.number}-review-notice`,
+            type: 'commentary',
+            bengali: `【তাহকিক ও অনুবাদ প্রক্রিয়াধীন】\n\n${fallback.title.bn}-এর এই অধ্যায়টি (${ch.title.bn}) বর্তমানে আমাদের ইসলামিক গবেষক ও নিরীক্ষক প্যানেল দ্বারা মূল পাণ্ডুলিপির (${fallback.verifiedSource}) আলোকে যাচাই ও সম্পাদন করা হচ্ছে।\n\nধর্মীয় বিষয়ের সর্বোচ্চ বিশুদ্ধতা বজায় রাখার স্বার্থে অনিরীক্ষিত কোনো অনুবাদ বা কৃত্রিম বুদ্ধিমত্তা দ্বারা তৈরি টেক্সট প্রকাশ করা থেকে বিরত থাকা হয়েছে। অতি শীঘ্রই ইনশাআল্লাহ পূর্ণাঙ্গ নির্ভরযোগ্য তাহকিক সংস্করণ এখানে উন্মুক্ত করা হবে।`,
+            english: `[SCHOLARLY AUDIT & VERIFICATION IN PROGRESS]\n\nThis chapter (${ch.title.en}) of ${fallback.title.en} is currently undergoing rigorous textual verification and translation review against the physical print edition (${fallback.verifiedSource}) by our qualified editorial board.\n\nTo uphold strict Islamic content integrity, unverified AI translations are strictly prohibited. The fully authenticated digital transcription will be published here shortly, insha'Allah.`,
+            source: fallback.verifiedSource,
           },
         ],
       })),

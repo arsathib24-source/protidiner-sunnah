@@ -58,15 +58,30 @@ export const Footer: React.FC<FooterProps> = ({ locale, dict }) => {
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Quick Knowledge Links */}
           <div className="space-y-3">
             <h4 className="text-sm font-semibold font-bengali-heading uppercase tracking-wider text-accent">
-              {dict.nav.library}
+              {locale === 'bn' ? 'জ্ঞান ভাণ্ডার' : locale === 'ar' ? 'أبواب المعرفة' : 'Knowledge Centers'}
             </h4>
             <ul className="space-y-2 text-sm text-background/80">
               <li>
-                <Link href={`/${locale}`} className="hover:text-accent transition-colors">
-                  {dict.nav.home}
+                <Link href={`/${locale}/quran`} className="hover:text-accent transition-colors">
+                  {locale === 'bn' ? 'পবিত্র আল-কুরআন' : 'The Holy Quran'}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${locale}/hadith`} className="hover:text-accent transition-colors">
+                  {locale === 'bn' ? 'হাদিস শাস্ত্র (কুতুবে সিত্তাহ)' : 'Hadith Collections'}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${locale}/duas`} className="hover:text-accent transition-colors">
+                  {locale === 'bn' ? 'হিসনুল মুসলিম (দু‘আ ও যিকির)' : 'Hisnul Muslim (Duas)'}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${locale}/seerah`} className="hover:text-accent transition-colors">
+                  {locale === 'bn' ? 'সীরাতুন্নবী ﷺ ও কালপঞ্জি' : 'Prophetic Seerah'}
                 </Link>
               </li>
               <li>
@@ -75,18 +90,8 @@ export const Footer: React.FC<FooterProps> = ({ locale, dict }) => {
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/categories`} className="hover:text-accent transition-colors">
-                  {dict.nav.categories}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/bookmarks`} className="hover:text-accent transition-colors">
-                  {dict.nav.bookmarks}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/design-system`} className="hover:text-accent transition-colors">
-                  {dict.nav.designSystem || (locale === 'bn' ? 'ডিজাইন সিস্টেম' : locale === 'ar' ? 'نظام التصميم' : 'Design System')}
+                <Link href={`/${locale}/search`} className="hover:text-accent transition-colors">
+                  {locale === 'bn' ? 'সার্বজনীন অনুসন্ধান' : 'Global Search'}
                 </Link>
               </li>
             </ul>
