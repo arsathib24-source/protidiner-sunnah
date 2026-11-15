@@ -206,6 +206,16 @@ export default async function EbookDetailPage({
                 {/* Category & Verified Stamp */}
                 <div className="flex flex-wrap items-center gap-2.5">
                   <Badge variant="accent">{book.category[lang]}</Badge>
+                  {(!book.isCompleted || (book.totalCompiledChapters && book.totalCompiledChapters !== book.chapterCount)) && (
+                    <Badge variant="outline" className="bg-amber-500/10 text-amber-800 dark:text-amber-300 border-amber-500/30 font-semibold">
+                      {lang === 'bn' ? 'প্রিভিউ সংস্করণ (তাহকিকাধীন)' : 'Preview Edition (Under Audit)'}
+                    </Badge>
+                  )}
+                  {book.license && (
+                    <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border-emerald-500/30 font-medium">
+                      {lang === 'bn' ? book.license.labelBn : book.license.labelEn}
+                    </Badge>
+                  )}
                   <span className="text-xs font-medium text-text-muted flex items-center gap-1">
                     <Clock className="w-3.5 h-3.5 text-accent-dark" />
                     <span>
@@ -304,8 +314,8 @@ export default async function EbookDetailPage({
                 </div>
               </div>
 
-              {/* Publication Date Metadata */}
-              <div className="pt-4 border-t border-border flex flex-wrap items-center justify-between text-xs text-text-muted gap-2">
+              {/* Publication Date & License Metadata */}
+              <div className="pt-4 border-t border-border flex flex-col sm:flex-row sm:items-center justify-between text-xs text-text-muted gap-2">
                 <span className="flex items-center gap-1.5">
                   <Calendar className="w-3.5 h-3.5 text-accent-dark" />
                   <span>
@@ -313,8 +323,11 @@ export default async function EbookDetailPage({
                     <strong>{book.publishedAt}</strong>
                   </span>
                 </span>
-                <span>
-                  {lang === 'bn' ? 'স্বত্বাধিকার: উন্মুক্ত ইসলামিক জ্ঞান প্রচার' : lang === 'ar' ? 'حقوق النشر: وقف علمي خيري مفتوح' : 'Open-Access Islamic Education'}
+                <span className="flex items-center gap-1.5" title={book.license?.terms}>
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>
+                    {lang === 'bn' ? `স্বত্বাধিকার: ${book.license?.labelBn || 'উন্মুক্ত ওয়াকফ'}` : `License: ${book.license?.labelEn || 'Open Waqf'}`}
+                  </span>
                 </span>
               </div>
             </div>

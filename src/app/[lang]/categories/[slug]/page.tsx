@@ -80,6 +80,9 @@ export default function CategoryDetailPage({
                 category={book.category[lang]}
                 description={book.description[lang]}
                 chapterCount={book.chapterCount}
+                totalCompiledChapters={book.totalCompiledChapters}
+                status={book.status}
+                licenseLabel={lang === 'bn' ? book.license?.labelBn : book.license?.labelEn}
                 readingTimeMins={book.readingTimeMins}
                 verifiedSource={book.verifiedSource}
                 lang={lang}

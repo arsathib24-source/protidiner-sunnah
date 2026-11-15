@@ -43,10 +43,28 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.5,
       },
       {
-        url: `${baseUrl}/${locale}/design-system`,
+        url: `${baseUrl}/${locale}/quran`,
         lastModified: currentDate,
-        changeFrequency: 'monthly',
-        priority: 0.3,
+        changeFrequency: 'weekly',
+        priority: 0.95,
+      },
+      {
+        url: `${baseUrl}/${locale}/hadith`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly',
+        priority: 0.95,
+      },
+      {
+        url: `${baseUrl}/${locale}/duas`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly',
+        priority: 0.9,
+      },
+      {
+        url: `${baseUrl}/${locale}/seerah`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly',
+        priority: 0.9,
       }
     );
   });

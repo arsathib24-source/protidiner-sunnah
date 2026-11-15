@@ -175,6 +175,9 @@ export default async function HomePage({
               category={book.category[lang]}
               description={book.description[lang]}
               chapterCount={book.chapterCount}
+              totalCompiledChapters={book.totalCompiledChapters}
+              status={book.status}
+              licenseLabel={lang === 'bn' ? book.license?.labelBn : book.license?.labelEn}
               readingTimeMins={book.readingTimeMins}
               verifiedSource={book.verifiedSource}
               lang={lang}
@@ -246,6 +249,9 @@ export default async function HomePage({
               author={book.author[lang]}
               category={book.category[lang]}
               chapterCount={book.chapterCount}
+              totalCompiledChapters={book.totalCompiledChapters}
+              status={book.status}
+              licenseLabel={lang === 'bn' ? book.license?.labelBn : book.license?.labelEn}
               readingTimeMins={book.readingTimeMins}
               verifiedSource={book.verifiedSource}
               lang={lang}
@@ -288,6 +294,9 @@ export default async function HomePage({
               category={book.category[lang]}
               description={book.description[lang]}
               chapterCount={book.chapterCount}
+              totalCompiledChapters={book.totalCompiledChapters}
+              status={book.status}
+              licenseLabel={lang === 'bn' ? book.license?.labelBn : book.license?.labelEn}
               readingTimeMins={book.readingTimeMins}
               verifiedSource={book.verifiedSource}
               layout="horizontal"
@@ -376,9 +385,9 @@ export default async function HomePage({
                     <ArrowIcon className="w-4 h-4 ms-2" />
                   </Button>
                 </Link>
-                <Link href={`/${lang}/design-system`}>
+                <Link href={`/${lang}/hadith`}>
                   <Button variant="outline" size="md">
-                    <span>{lang === 'bn' ? 'ডিজাইন সিস্টেম দেখুন' : lang === 'ar' ? 'نظام التصميم' : 'Design System'}</span>
+                    <span>{lang === 'bn' ? 'সহিহ হাদিস সংকলন' : lang === 'ar' ? 'موسوعة الحديث' : 'Hadith Collections'}</span>
                   </Button>
                 </Link>
               </div>

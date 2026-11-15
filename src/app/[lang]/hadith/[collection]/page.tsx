@@ -190,6 +190,43 @@ export default function HadithCollectionPage({ params, searchParams }: HadithCol
                       {item.explanationBn}
                     </div>
                   )}
+
+                  {/* Scholarly Verification Metadata Audit Box */}
+                  <div className="pt-3 border-t border-border/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-text-muted">
+                    <div className="flex flex-wrap items-center gap-2">
+                      {item.verificationStatus === 'VERIFIED_SCHOLAR_AUDITED' ? (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30 font-semibold text-[11px]">
+                          <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                          <span>{lang === 'bn' ? 'তাহকিককৃত প্রামাণ্য হাদিস' : 'Scholar Audited & Verified'}</span>
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-500/30 font-semibold text-[11px]">
+                          <ShieldCheck className="w-3.5 h-3.5 text-amber-600" />
+                          <span>PENDING SCHOLAR REVIEW</span>
+                        </span>
+                      )}
+                      {item.sourceEdition && (
+                        <span className="truncate max-w-[280px]" title={item.sourceEdition}>
+                          <strong>উৎস:</strong> {item.sourceEdition}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-3 text-[11px]">
+                      {item.reviewer && (
+                        <span className="flex items-center gap-1" title={`অনুবাদক: ${item.translator || 'অনুবাদক পরিষদ'}`}>
+                          <UserCheck className="w-3 h-3 text-accent-dark" />
+                          <span>{item.reviewer}</span>
+                        </span>
+                      )}
+                      {item.reviewDate && (
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-3 h-3 text-accent-dark" />
+                          <span>{item.reviewDate}</span>
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>

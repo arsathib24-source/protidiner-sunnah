@@ -59,7 +59,18 @@ export const BookmarksClientView: React.FC<BookmarksClientViewProps> = ({ locale
   const [showNoteForm, setShowNoteForm] = useState(false);
 
   useEffect(() => {
+    // Safety watchdog to prevent endless loading under any browser storage condition
+    const watchdogTimer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 150);
+
     try {
+      if (typeof window === 'undefined' || !window.localStorage) {
+        setIsLoaded(true);
+        clearTimeout(watchdogTimer);
+        return;
+      }
+
       const loadedBookmarks: SavedBookmarkItem[] = [];
       const loadedProgress: ReadingProgressItem[] = [];
       const loadedNotes: PersonalNoteItem[] = [];
@@ -264,8 +275,12 @@ export const BookmarksClientView: React.FC<BookmarksClientViewProps> = ({ locale
 
   if (!isLoaded) {
     return (
-      <div className="py-20 text-center text-text-muted">
-        <p className="animate-pulse">{locale === 'bn' ? 'সংরক্ষিত তথ্য লোড হচ্ছে...' : 'Loading personal library...'}</p>
+      <div className="space-y-6 animate-pulse">
+        <div className="h-12 bg-surface rounded-2xl border border-border" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="h-32 bg-surface rounded-2xl border border-border" />
+          <div className="h-32 bg-surface rounded-2xl border border-border" />
+        </div>
       </div>
     );
   }

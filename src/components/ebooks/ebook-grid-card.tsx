@@ -47,12 +47,24 @@ export const EbookGridCard: React.FC<EbookGridCardProps> = ({
 
         {/* Top Badges */}
         <div className="relative z-10 flex items-center justify-between">
-          <Badge variant="accent" size="sm" className="bg-surface/90 text-primary border-accent/40 backdrop-blur-sm">
-            {book.category[locale]}
-          </Badge>
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <Badge variant="accent" size="sm" className="bg-surface/90 text-primary border-accent/40 backdrop-blur-sm">
+              {book.category[locale]}
+            </Badge>
+            {(!book.isCompleted || (book.totalCompiledChapters && book.totalCompiledChapters !== book.chapterCount)) && (
+              <Badge variant="outline" size="sm" className="bg-amber-500/20 text-amber-200 border-amber-400/40 text-[10px] font-semibold">
+                {locale === 'bn' ? 'প্রিভিউ' : 'Preview'}
+              </Badge>
+            )}
+          </div>
 
-          {/* Available Languages Badges */}
+          {/* License & Language Badges */}
           <div className="flex items-center gap-1">
+            {book.license && (
+              <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-200 border border-emerald-500/30">
+                {locale === 'bn' ? book.license.labelBn : book.license.labelEn}
+              </span>
+            )}
             {book.availableLanguages.map((lang) => (
               <span
                 key={lang}

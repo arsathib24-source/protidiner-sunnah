@@ -14,6 +14,7 @@ import {
   Image as ImageIcon,
   Users,
   Settings,
+  Sparkles,
   ChevronRight,
   ExternalLink,
   ShieldCheck,
@@ -99,6 +100,12 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
       titleEn: 'Website Settings',
       href: `/${locale}/admin/settings`,
       icon: Settings,
+    },
+    {
+      title: 'ডিজাইন সিস্টেম গাইড',
+      titleEn: 'Design System Documentation',
+      href: `/${locale}/design-system`,
+      icon: Sparkles,
     },
   ];
 

@@ -18,6 +18,8 @@ export interface EbookCardProps {
   coverImageUrl?: string;
   chapterCount?: number;
   totalCompiledChapters?: number;
+  status?: 'preview' | 'complete';
+  licenseLabel?: string;
   readingTimeMins?: number;
   verifiedSource?: string;
   progressPercentage?: number;
@@ -38,6 +40,8 @@ export const EbookCard: React.FC<EbookCardProps> = ({
   description,
   chapterCount = 5,
   totalCompiledChapters,
+  status,
+  licenseLabel,
   readingTimeMins = 15,
   verifiedSource = 'যাচাইকৃত মূল পাঠ',
   progressPercentage,
@@ -95,9 +99,21 @@ export const EbookCard: React.FC<EbookCardProps> = ({
         <div className="flex-1 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between gap-2 mb-2">
-              <Badge variant="accent" size="sm">
-                {category}
-              </Badge>
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <Badge variant="accent" size="sm">
+                  {category}
+                </Badge>
+                {(status === 'preview' || (totalCompiledChapters && totalCompiledChapters !== chapterCount)) && (
+                  <Badge variant="outline" size="sm" className="bg-amber-500/20 text-amber-800 dark:text-amber-200 border-amber-400/40 text-[10px] font-semibold">
+                    {lang === 'bn' ? 'প্রিভিউ' : lang === 'ar' ? 'معاينة' : 'Preview'}
+                  </Badge>
+                )}
+                {licenseLabel && (
+                  <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-200 border border-emerald-500/30">
+                    {licenseLabel}
+                  </span>
+                )}
+              </div>
               <button
                 type="button"
                 onClick={handleBookmarkClick}
@@ -166,9 +182,21 @@ export const EbookCard: React.FC<EbookCardProps> = ({
 
         {/* Top Badges & Bookmark */}
         <div className="relative z-10 flex items-center justify-between">
-          <Badge variant="accent" size="sm" className="bg-surface/90 text-primary border-accent/30 backdrop-blur-sm">
-            {category}
-          </Badge>
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <Badge variant="accent" size="sm" className="bg-surface/90 text-primary border-accent/30 backdrop-blur-sm">
+              {category}
+            </Badge>
+            {(status === 'preview' || (totalCompiledChapters && totalCompiledChapters !== chapterCount)) && (
+              <Badge variant="outline" size="sm" className="bg-amber-500/25 text-amber-100 border-amber-300/40 text-[10px] font-semibold">
+                {lang === 'bn' ? 'প্রিভিউ' : lang === 'ar' ? 'معاينة' : 'Preview'}
+              </Badge>
+            )}
+            {licenseLabel && (
+              <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-200 border border-emerald-500/30">
+                {licenseLabel}
+              </span>
+            )}
+          </div>
 
           <button
             type="button"

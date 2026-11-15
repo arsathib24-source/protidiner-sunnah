@@ -13,6 +13,24 @@ export interface ReviewerInfo {
   notes: string;
 }
 
+export type LicenseType = 
+  | 'public_domain'         // মূল ক্লাসিক্যাল আরবি পাঠ সর্বজনীন উন্মুক্ত
+  | 'open_license'           // ক্রিয়েটিভ কমন্স / উন্মুক্ত দ্বীনি ওয়াকফ
+  | 'permission_granted'     // প্রকাশকের অনুমতি সাপেক্ষে
+  | 'permission_pending'     // স্বত্বাধিকার যাচাই ও অনুমতি প্রক্রিয়াধীন
+  | 'restricted_use';        // শুধুমাত্র ব্যক্তিগত অধ্যয়নের জন্য সীমিত
+
+export interface BookLicense {
+  type: LicenseType;
+  labelBn: string;
+  labelEn: string;
+  badgeVariant: 'accent' | 'secondary' | 'outline' | 'gold' | 'forest';
+  detailsBn: string;
+  detailsEn: string;
+  terms: string;
+  attributionRequired: boolean;
+}
+
 export interface ClassicalBook {
   id: string;
   slug: string;
@@ -29,6 +47,9 @@ export interface ClassicalBook {
   fullDescription?: { bn: string; ar: string; en: string };
   chapterCount: number; // Available transcribed digital chapters
   totalCompiledChapters?: number; // Total chapters in full classical manuscript
+  status: 'preview' | 'complete';
+  isCompleted: boolean;
+  license: BookLicense;
   editorialNotice?: { bn: string; ar: string; en: string };
   readingTimeMins: number;
   verifiedSource: string;
@@ -80,6 +101,18 @@ export const CLASSICAL_BOOKS: ClassicalBook[] = [
     },
     chapterCount: 5,
     totalCompiledChapters: 372,
+    status: 'preview',
+    isCompleted: false,
+    license: {
+      type: 'public_domain',
+      labelBn: 'পাবলিক ডোমেইন ও উন্মুক্ত ওয়াকফ',
+      labelEn: 'Public Domain & Open Waqf',
+      badgeVariant: 'forest',
+      detailsBn: 'ইমাম নববী (রহ.)-এর মূল ক্লাসিক্যাল আরবি গ্রন্থ সর্বজনীন পাবলিক ডোমেইনভুক্ত। বাংলা তাহকিক ও অনুবাদ উন্মুক্ত দ্বীনি দাওয়াহর অংশ হিসেবে বিনামূল্যে পঠনযোগ্য।',
+      detailsEn: 'Original classical text is in the public domain. Digital translation is released for free non-commercial educational use.',
+      terms: 'বাণিজ্যিক বিক্রয় নিষিদ্ধ। মূল রচয়িতা ও তাহকিকের যথাযথ রেফারেন্স প্রদান বাধ্যতামূলক।',
+      attributionRequired: true,
+    },
     editorialNotice: {
       bn: 'ইমাম আন-নববী (রহ.) সংকলিত মূল রিয়াযুস সলেহিনে মোট ৩৭২টি অধ্যায় ও ১৮৯৬টি হাদিস রয়েছে। বর্তমান ডিজিটাল সংস্করণে প্রারম্ভিক ৫টি মৌলিক অধ্যায় সম্পূর্ণ নির্ভরযোগ্য তাহকিক ও অনুবাদসহ উন্মুক্ত করা হয়েছে। অবশিষ্ট ৩৬৭টি অধ্যায় গবেষক প্যানেল দ্বারা মূল পাণ্ডুলিপির আলোকে সম্পাদন ও প্রুফরিডিং প্রক্রিয়াটির মধ্য দিয়ে যাচ্ছে।',
       ar: 'يضم الأصل المطبوع لكتاب رياض الصالحين للإمام النووي رحمه الله ٣٧٢ باباً ونحو ١٨٩٦ حديثاً. تم تدقيق وضبط الفصول الخمسة الأولى رقمياً، بينما تجري مراجعة بقية الأبواب تباعاً.',
@@ -144,6 +177,18 @@ export const CLASSICAL_BOOKS: ClassicalBook[] = [
     },
     chapterCount: 4,
     totalCompiledChapters: 132,
+    status: 'preview',
+    isCompleted: false,
+    license: {
+      type: 'open_license',
+      labelBn: 'উন্মুক্ত দাওয়াহ লাইসেন্স (Open Waqf)',
+      labelEn: 'Open Islamic Waqf License',
+      badgeVariant: 'accent',
+      detailsBn: 'রচয়িতা ড. সাঈদ আল-কাহতানী (রহ.) এটিকে মুসলিম উম্মাহর জন্য উন্মুক্ত সদকায়ে জারিয়াহ হিসেবে ওয়াকফ করেছেন।',
+      detailsEn: 'Dedicated as perpetual waqf for all Muslims without copyright royalty restrictions.',
+      terms: 'অবাণিজ্যিক দ্বীনি শিক্ষায় সম্পূর্ণ উন্মুক্ত। সঠিক রেফারেন্স রক্ষা করা বাঞ্ছনীয়।',
+      attributionRequired: true,
+    },
     editorialNotice: {
       bn: 'ড. সাঈদ আল-কাহতানী (রহ.) সংকলিত হিসনুল মুসলিমের মূল গ্রন্থে মোট ১৩২টি পরিচ্ছেদ রয়েছে। এখানে সর্বাধিক পঠিত প্রাত্যহিক ৪টি পরিচ্ছেদ তাহকিকসহ উন্মুক্ত রাখা হয়েছে; অবশিষ্ট পরিচ্ছেদসমূহ সম্পাদনাধীন।',
       ar: 'يشتمل كتاب حصن المسلم على ١٣٢ باباً من الأذكار النبوية. نوفر حالياً الأبواب اليومية الأكثر تداولاً، مع استمرار إدراج بقية الأذكار تباعاً.',
@@ -207,6 +252,18 @@ export const CLASSICAL_BOOKS: ClassicalBook[] = [
     },
     chapterCount: 4,
     totalCompiledChapters: 42,
+    status: 'preview',
+    isCompleted: false,
+    license: {
+      type: 'public_domain',
+      labelBn: 'পাবলিক ডোমেইন (Classical Hadith)',
+      labelEn: 'Public Domain Classical Text',
+      badgeVariant: 'forest',
+      detailsBn: 'সপ্তম হিজরি শতাব্দীর এই ক্লাসিক্যাল হাদিস মাতন বিশ্বব্যাপী পাবলিক ডোমেইনের অংশ।',
+      detailsEn: 'This classical text is in the public domain globally.',
+      terms: 'বিনামূল্যে অধ্যয়ন, মুখস্থকরণ ও শেয়ারের জন্য উন্মুক্ত।',
+      attributionRequired: true,
+    },
     editorialNotice: {
       bn: 'ইমাম নববীর মূল সংকলনে মোট ৪২টি মৌলিক হাদিস রয়েছে। বর্তমান পর্বে প্রাথমিক ৪টি সুপরিচিত হাদিস সম্পূর্ণ ব্যাখ্যাসহ সন্নিবেশিত হয়েছে; অবশিষ্ট ৩৮টি হাদিস সম্পাদনাধীন।',
       ar: 'تضم الأربعون النووية ٤٢ حديثاً جامعاً. نوفر حالياً الأحاديث الأربعة الأولى مع الاستمرار في إدراج بقية المتون.',
@@ -270,6 +327,18 @@ export const CLASSICAL_BOOKS: ClassicalBook[] = [
     },
     chapterCount: 3,
     totalCompiledChapters: 56,
+    status: 'preview',
+    isCompleted: false,
+    license: {
+      type: 'public_domain',
+      labelBn: 'পাবলিক ডোমেইন (Classical Seerah)',
+      labelEn: 'Public Domain Classical Work',
+      badgeVariant: 'forest',
+      detailsBn: 'ইমাম আত-তিরমিজি (রহ.)-এর মূল শামায়েল গ্রন্থ সার্বজনীন ইসলামিক ঐতিহ্যের অংশ হিসেবে পাবলিক ডোমেইনে অন্তর্ভুক্ত।',
+      detailsEn: 'Third-century classical prophetic literature in the public domain.',
+      terms: 'অবাণিজ্যিক অধ্যয়ন ও রাসুলুল্লাহ ﷺ-এর শামায়েল প্রচারে উন্মুক্ত।',
+      attributionRequired: true,
+    },
     editorialNotice: {
       bn: 'ইমাম তিরমিজির মূল শামায়েল গ্রন্থে মোট ৫৬টি পরিচ্ছেদ রয়েছে। প্রাথমিক ৩টি মূল পরিচ্ছেদ ডিজিটাল সংস্করণে উন্মুক্ত রয়েছে।',
       ar: 'يضم الشمائل المحمدية ٥٦ باباً، نوفر حالياً الأبواب الثلاثة الأولى.',
@@ -331,6 +400,18 @@ export const CLASSICAL_BOOKS: ClassicalBook[] = [
     },
     chapterCount: 3,
     totalCompiledChapters: 644,
+    status: 'preview',
+    isCompleted: false,
+    license: {
+      type: 'public_domain',
+      labelBn: 'পাবলিক ডোমেইন (Classical Ethics)',
+      labelEn: 'Public Domain Classical Text',
+      badgeVariant: 'forest',
+      detailsBn: 'ইমাম আল-বুখারি (রহ.)-এর এই মূল ক্লাসিক্যাল শিষ্টাচার সংকলন পাবলিক ডোমেইনের অংশ।',
+      detailsEn: 'Third-century classical ethics text in the public domain.',
+      terms: 'বিনামূল্যে পাঠ ও ইসলামিক চরিত্র গঠনে অনুশীলনের জন্য উন্মুক্ত।',
+      attributionRequired: true,
+    },
     editorialNotice: {
       bn: 'ইমাম বুখারির মূল গ্রন্থে ৬৪৪টি পরিচ্ছেদ রয়েছে। প্রাথমিক ৩টি মৌলিক পরিচ্ছেদ যাচাইকৃত অনুবাদসহ এখানে পরিবেশিত হয়েছে।',
       ar: 'يشتمل الكتاب على ٦٤٤ باباً، وتتوفر حالياً الأبواب الثلاثة الأولى.',
@@ -392,6 +473,18 @@ export const CLASSICAL_BOOKS: ClassicalBook[] = [
     },
     chapterCount: 3,
     totalCompiledChapters: 450,
+    status: 'preview',
+    isCompleted: false,
+    license: {
+      type: 'public_domain',
+      labelBn: 'পাবলিক ডোমেইন (Classical Fiqh Hadith)',
+      labelEn: 'Public Domain Classical Fiqh',
+      badgeVariant: 'forest',
+      detailsBn: 'নবম হিজরি শতাব্দীর প্রখ্যাত ফকিহ ও মুহাদ্দিস হাফেজ ইবনে হাজার (রহ.)-এর মূল সংকলন সর্বজনীন পাবলিক ডোমেইনের অংশ।',
+      detailsEn: 'Ninth-century classical legal hadith treatise in the public domain.',
+      terms: 'শরয়ি বিধান গবেষণায় অবাণিজ্যিক ব্যবহারের জন্য উন্মুক্ত।',
+      attributionRequired: true,
+    },
     editorialNotice: {
       bn: 'মূল সংকলনে ৪৫০টি অনুচ্ছেদ রয়েছে। প্রাথমিক ৩টি অনুচ্ছেদ এখানে তাহকিকসহ উন্মুক্ত করা হয়েছে।',
       ar: 'يشتمل الكتاب على ٤٥٠ فصلاً، نوفر منها الفصول الثلاثة الأولى.',
@@ -448,6 +541,18 @@ export const CLASSICAL_BOOKS: ClassicalBook[] = [
     },
     chapterCount: 3,
     totalCompiledChapters: 67,
+    status: 'preview',
+    isCompleted: false,
+    license: {
+      type: 'open_license',
+      labelBn: 'উন্মুক্ত ইসলামিক ওয়াকফ (Open Waqf)',
+      labelEn: 'Open Islamic Waqf License',
+      badgeVariant: 'accent',
+      detailsBn: 'বিশুদ্ধ আকিদা প্রচারের মহতী উদ্দেশ্যে এই কিতাব ও অনুবাদ বিনামূল্যে ওয়াকফকৃত।',
+      detailsEn: 'Distributed for free propagation of authentic Islamic creed.',
+      terms: 'কোনো প্রকার ব্যবসায়িক বাণিজ্যিকীকরণ ব্যতিরেকে উন্মুক্ত বিতরণযোগ্য।',
+      attributionRequired: true,
+    },
     editorialNotice: {
       bn: 'মূল কিতাবে ৬৭টি পরিচ্ছেদ রয়েছে। প্রারম্ভিক ৩টি মূল অধ্যায় এখানে সম্পূর্ণ তাহকিকসহ সংকলিত হয়েছে।',
       ar: 'يشتمل الكتاب على ٦٧ باباً، نوفر منها الأبواب الثلاثة الأولى.',

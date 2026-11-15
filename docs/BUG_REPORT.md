@@ -138,3 +138,51 @@
 - **Expected Behavior:** Clear, canonical URLs with 301 redirects from legacy paths.
 - **Actual Behavior:** Both `/library` and `/ebooks` exist, and both `/reader/[slug]` and `/read/[slug]` exist, creating duplicate route definitions without canonical consolidation.
 - **Recommended Solution:** Convert `/library` to a permanent 301 redirect to `/ebooks`, and `/reader/[slug]` to a permanent 301 redirect to `/read/[slug]`.
+
+
+---
+
+## সর্বশেষ অডিট ও রেজোলিউশন রিপোর্ট (Latest Audit & Resolution Updates)
+
+### BUG-10: Endless Loading Screen on `/bn/bookmarks`
+- **Severity:** **HIGH**
+- **Status:** **FIXED & VERIFIED**
+- **Root Cause:** A blocking text condition (`if (!isLoaded) return <p>সংরক্ষিত তথ্য লোড হচ্ছে...</p>`) awaited browser storage access indefinitely on devices where `localStorage` was slow or restricted.
+- **Resolution:** Implemented non-blocking animated skeleton placeholders, a 150ms safety watchdog timer forcing resolution, and an actionable empty state with links to "আল-কুরআন পড়ুন" and "ই-বুক লাইব্রেরি".
+- **Files Modified:** `src/components/bookmarks/bookmarks-client-view.tsx`
+
+---
+
+### BUG-11: Public Exposure of Developer Design System
+- **Severity:** **MEDIUM**
+- **Status:** **FIXED & VERIFIED**
+- **Root Cause:** Developer documentation at `/design-system` was linked in public footer, homepage CTA, and XML sitemap.
+- **Resolution:** Removed public links from `footer.tsx`, `page.tsx`, and `sitemap.ts`. Preserved the developer documentation exclusively in the protected Admin sidebar (`src/components/admin/admin-sidebar.tsx`).
+- **Files Modified:** `src/components/layout/footer.tsx`, `src/app/[lang]/page.tsx`, `src/app/sitemap.ts`, `src/components/admin/admin-sidebar.tsx`.
+
+---
+
+### BUG-12: Unclear Chapter Counts & Preview Status in Classical Books (Riyad-us-Saliheen)
+- **Severity:** **HIGH**
+- **Status:** **FIXED & VERIFIED**
+- **Root Cause:** Original manuscript chapter count (372 chapters in Riyad-us-Saliheen) conflicted with the 5 foundational digitized chapters, with no indicator whether data was missing or intentionally limited.
+- **Resolution:** Added `status: 'preview'`, `totalCompiledChapters`, `isCompleted: false`, and `editorialNotice` to all 7 classical books. Updated UI cards to clearly state "৫টি উন্মুক্ত (মূল ৩৭২)" with "প্রিভিউ সংস্করণ" badge and official Darussalam print collation notes.
+- **Files Modified:** `src/lib/data/books.ts`, `src/components/ebooks/ebook-grid-card.tsx`, `src/components/ui/ebook-card.tsx`, `src/app/[lang]/ebooks/[slug]/page.tsx`, `src/app/[lang]/page.tsx`.
+
+---
+
+### BUG-13: Hadith Records Missing Scholarly Verification Metadata
+- **Severity:** **HIGH**
+- **Status:** **FIXED & VERIFIED**
+- **Root Cause:** Hadith display items lacked verifiable print source edition, translator, reviewer panel, and explicit review dates.
+- **Resolution:** Added `sourceEdition`, `translator`, `reviewer`, `verificationStatus: 'VERIFIED_SCHOLAR_AUDITED' | 'PENDING_SCHOLAR_REVIEW'`, and `reviewDate` fields to `HadithDetailItem`. Rendered a dedicated scholarly verification box on each hadith card.
+- **Files Modified:** `src/lib/data/hadith-data.ts`, `src/app/[lang]/hadith/[collection]/page.tsx`.
+
+---
+
+### BUG-14: Client-side Exception During Custom Logo Hydration
+- **Severity:** **CRITICAL**
+- **Status:** **FIXED & VERIFIED**
+- **Root Cause:** Next.js dynamic metadata `icon.png` generation collided with `next/image` in `BrandLogo` during SSR/hydration.
+- **Resolution:** Standardized `BrandLogo` with a resilient HTML `<img>` tag and clean static `/logo.png` favicon references.
+- **Files Modified:** `src/components/ui/brand-logo.tsx`, `src/components/layout/header.tsx`, `src/components/layout/footer.tsx`, `src/app/[lang]/layout.tsx`.

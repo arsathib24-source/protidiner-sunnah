@@ -54,3 +54,36 @@
 8. **Module H: SEO & Structured Schema**
    - Implemented `schema.org/Organization`, `schema.org/WebSite`, and `schema.org/Book` JSON-LD across all dynamic pages.
    - Cleaned public header navigation; moved Design System to discreet footer link.
+
+
+## Phase 5: Scholarly Integrity, Copyright & UX Polish Audit (Completed — Nov 15, 2026)
+1. **Ebook Content Status & Preview Labeling:**
+   - Evaluated all 7 classical books; verified available chapters vs total manuscript counts.
+   - Clarified Riyad-us-Saliheen discrepancy (372 classical chapters vs 5 foundational digitized chapters) via explicit "প্রিভিউ সংস্করণ" badge and official Darussalam print collation notes.
+   - Updated `EbookGridCard`, `EbookCard`, and Ebook Details page to consistently display available vs compiled chapters and editorial notices.
+2. **Quran Completeness & Protection Against AI Generation:**
+   - Verified all 114 Surahs with authentic Arabic names, meanings, ayah counts, Juz starts, and revelation types.
+   - Bound Ayah reading to verified King Fahd Complex Uthmani script and Islamic Foundation Bangladesh translations.
+   - Established strict completion plan; prohibited AI text generation for Quran and Hadith.
+3. **Bookmarks Loading Screen & Empty State Overhaul:**
+   - Eliminated the blocking "সংরক্ষিত তথ্য লোড হচ্ছে..." hang on `/bn/bookmarks`.
+   - Introduced a 150ms safety watchdog timer and clean animated skeleton loader.
+   - Implemented rich empty state with direct action buttons: "আল-কুরআন পড়ুন" and "ই-বুক লাইব্রেরি".
+4. **Design System Isolation:**
+   - Removed public Design System links from ordinary navigation, footer, homepage About section, and public XML sitemap.
+   - Preserved developer documentation inside the protected Admin Console sidebar (`src/components/admin/admin-sidebar.tsx`).
+5. **Religious Content Verification Metadata:**
+   - Extended `HadithDetailItem` schema with `sourceEdition`, `translator`, `reviewer`, `verificationStatus`, and `reviewDate`.
+   - Enforced `VERIFIED_SCHOLAR_AUDITED` or `PENDING_SCHOLAR_REVIEW` grading flags.
+   - Added scholarly verification metadata boxes to each displayed hadith card.
+6. **Book-Level Licensing System:**
+   - Designed and applied a 5-tier licensing framework: `public_domain`, `open_license`, `permission_granted`, `permission_pending`, `restricted_use`.
+   - Annotated each book with its legal and religious waqf terms; rejected blanket redistribution claims on modern copyrighted translations.
+7. **Search & Multi-Device Navigation:**
+   - Tested unified search, category routing, responsive mobile drawer, and previous/next navigation across all routes.
+8. **UI & Responsive Verification:**
+   - Validated layouts across 390px (mobile), 768px (tablet), and 1440px (desktop).
+   - Maintained Amiri Arabic RTL typography, Tashkeel rendering, and Bengali font readability.
+9. **Build & Quality Assurance:**
+   - TypeScript compiler verification (`tsc --noEmit`): 0 errors.
+   - Next.js production build (`next build`): 0 errors, 36 dynamic and static routes compiled and optimized.
