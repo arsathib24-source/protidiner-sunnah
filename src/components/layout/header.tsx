@@ -48,8 +48,8 @@ export const Header: React.FC<HeaderProps> = ({ locale, dict, siteSettings }) =>
       ? siteSettings?.taglineEn || dict.brand.tagline
       : siteSettings?.taglineBn || dict.brand.tagline;
 
-  const logoType = siteSettings?.logoType || 'star';
-  const logoImageUrl = siteSettings?.logoImageUrl;
+  const logoType = siteSettings?.logoType || 'image';
+  const logoImageUrl = siteSettings?.logoImageUrl || '/logo.png';
   const showTagline = siteSettings?.showTagline !== false;
 
   const navLinks = [

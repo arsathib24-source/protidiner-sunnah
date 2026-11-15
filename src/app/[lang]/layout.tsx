@@ -43,11 +43,24 @@ export async function generateMetadata({
         'x-default': '/bn',
       },
     },
+    icons: {
+      icon: '/icon.png',
+      shortcut: '/logo.png',
+      apple: '/logo.png',
+    },
     openGraph: {
       title: dict.brand.name,
       description: dict.brand.description,
       type: 'website',
       locale: lang === 'bn' ? 'bn_BD' : lang === 'ar' ? 'ar_SA' : 'en_US',
+      images: [
+        {
+          url: '/logo.png',
+          width: 800,
+          height: 800,
+          alt: dict.brand.name,
+        },
+      ],
     },
   };
 }

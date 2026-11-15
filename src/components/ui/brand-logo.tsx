@@ -26,8 +26,8 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   locale = 'bn',
   title = 'প্রতিদিনের সুন্নাহ',
   tagline = 'রাসুলুল্লাহ ﷺ-এর আদর্শে প্রতিদিন',
-  logoType = 'star',
-  logoImageUrl,
+  logoType = 'image',
+  logoImageUrl = '/logo.png',
   showTagline = true,
   size = 'md',
   variant = 'header',
@@ -77,13 +77,17 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 
   // Render emblem icon based on dynamic type
   const renderEmblem = () => {
-    if (logoType === 'image' && logoImageUrl) {
+    if (logoType === 'image' || !logoType) {
+      const src = logoImageUrl || '/logo.png';
       return (
-        <div className="relative w-full h-full p-2 flex items-center justify-center">
-          <img
-            src={logoImageUrl}
+        <div className="relative w-full h-full p-0.5 flex items-center justify-center">
+          <Image
+            src={src}
             alt={title}
+            width={64}
+            height={64}
             className="w-full h-full object-contain"
+            priority
           />
         </div>
       );
@@ -155,11 +159,13 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       )}
       onClick={onClick}
     >
-      {/* Emblem Box - Exact Primary/Secondary gradient with Accent border */}
+      {/* Emblem Box */}
       <div
         className={cn(
           sizeClasses.box,
-          'bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-accent shadow-subtle border border-accent/40 transition-transform group-hover:scale-105 shrink-0'
+          logoType === 'image' || !logoType
+            ? 'bg-white shadow-subtle border border-accent/40 flex items-center justify-center overflow-hidden transition-transform group-hover:scale-105 shrink-0'
+            : 'bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-accent shadow-subtle border border-accent/40 transition-transform group-hover:scale-105 shrink-0'
         )}
       >
         {renderEmblem()}
