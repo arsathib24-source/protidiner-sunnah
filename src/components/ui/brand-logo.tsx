@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { IslamicStarIcon } from './decorative';
 
@@ -81,13 +80,11 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       const src = logoImageUrl || '/logo.png';
       return (
         <div className="relative w-full h-full p-0.5 flex items-center justify-center">
-          <Image
+          <img
             src={src}
             alt={title}
-            width={64}
-            height={64}
             className="w-full h-full object-contain"
-            priority
+            loading="eager"
           />
         </div>
       );
