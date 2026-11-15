@@ -58,8 +58,9 @@ const config: Config = {
         border: "var(--border)",
       },
       fontFamily: {
-        bengali: ["Noto Sans Bengali", "sans-serif"],
-        "bengali-heading": ["Hind Siliguri", "sans-serif"],
+        bengali: ["'Tiro Bangla'", "'Noto Sans Bengali'", "serif"],
+        "bengali-heading": ["'Tiro Bangla'", "'Hind Siliguri'", "serif"],
+        "bengali-body": ["'Tiro Bangla'", "'Noto Sans Bengali'", "serif"],
         arabic: ["Amiri", "serif"],
         english: ["Inter", "sans-serif"],
       },

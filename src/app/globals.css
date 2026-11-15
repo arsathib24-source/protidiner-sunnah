@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Tiro+Bangla:ital@0;1&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -70,25 +70,48 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: 'Noto Sans Bengali', 'Inter', sans-serif;
+  font-family: 'Tiro Bangla', 'Noto Sans Bengali', 'Inter', serif;
   font-feature-settings: "rlig" 1, "calt" 1;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Headings with Hind Siliguri for Bengali */
+/* Headings with Tiro Bangla for Bengali */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Hind Siliguri', 'Inter', sans-serif;
+  font-family: 'Tiro Bangla', 'Hind Siliguri', 'Inter', serif;
+}
+
+/* Bengali Global Typography with Tiro Bangla */
+html[lang="bn"],
+html[lang="bn"] body,
+html[lang="bn"] h1,
+html[lang="bn"] h2,
+html[lang="bn"] h3,
+html[lang="bn"] h4,
+html[lang="bn"] h5,
+html[lang="bn"] h6,
+html[lang="bn"] p,
+html[lang="bn"] span,
+html[lang="bn"] a,
+html[lang="bn"] button,
+html[lang="bn"] input,
+html[lang="bn"] textarea,
+html[lang="bn"] select,
+.font-bengali,
+.font-bengali-heading,
+.font-bengali-body {
+  font-family: 'Tiro Bangla', 'Noto Sans Bengali', 'Hind Siliguri', serif;
 }
 
 /* Arabic RTL Typography */
-[dir="rtl"] {
+[dir="rtl"],
+.font-arabic {
   text-align: right;
-  font-family: 'Amiri', serif;
+  font-family: 'Amiri', serif !important;
 }
 
 [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4 {
-  font-family: 'Amiri', serif;
+  font-family: 'Amiri', serif !important;
   font-weight: 700;
 }
 

@@ -118,22 +118,22 @@ export default function DesignSystemPage({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Bengali Typography */}
             <Card className="p-6 space-y-4">
-              <Badge variant="accent">বাংলা টাইপোগ্রাফি (Hind Siliguri + Noto Sans)</Badge>
+              <Badge variant="accent">বাংলা টাইপোগ্রাফি (Tiro Bangla)</Badge>
               <div className="space-y-3">
                 <div>
-                  <span className="text-[10px] uppercase font-mono text-text-muted">Display Heading (Hind Siliguri Bold 32px)</span>
+                  <span className="text-[10px] uppercase font-mono text-text-muted">Display Heading (Tiro Bangla Bold 32px)</span>
                   <h1 className="text-3xl font-bold font-bengali-heading text-primary leading-tight">
                     সহিহ হাদিসের আলোয় প্রতিটি দিন
                   </h1>
                 </div>
                 <div>
-                  <span className="text-[10px] uppercase font-mono text-text-muted">Section Title (Hind Siliguri Semibold 24px)</span>
+                  <span className="text-[10px] uppercase font-mono text-text-muted">Section Title (Tiro Bangla Semibold 24px)</span>
                   <h2 className="text-2xl font-semibold font-bengali-heading text-primary leading-tight">
                     প্রাত্যহিক জীবনের প্রয়োজনীয় আমল ও দোয়া
                   </h2>
                 </div>
                 <div>
-                  <span className="text-[10px] uppercase font-mono text-text-muted">Body Text (Noto Sans Bengali Regular 16px / 1.8 line-height)</span>
+                  <span className="text-[10px] uppercase font-mono text-text-muted">Body Text (Tiro Bangla Regular 16px / 1.8 line-height)</span>
                   <p className="text-base text-foreground leading-relaxed font-bengali">
                     রাসুলুল্লাহ ﷺ-এর জীবন ও সুন্নাহ আমাদের জন্য সর্বোত্তম আদর্শ। বিশুদ্ধ জ্ঞান অর্জনের মাধ্যমে প্রতিটি মুমিন তার দৈনন্দিন জীবনকে সাজাতে পারে।
                   </p>
