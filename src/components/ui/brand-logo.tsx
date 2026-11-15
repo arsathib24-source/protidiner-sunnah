@@ -76,20 +76,6 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 
   // Render emblem icon based on dynamic type
   const renderEmblem = () => {
-    if (logoType === 'image' || !logoType) {
-      const src = logoImageUrl || '/logo.png';
-      return (
-        <div className="relative w-full h-full p-0.5 flex items-center justify-center">
-          <img
-            src={src}
-            alt={title}
-            className="w-full h-full object-contain"
-            loading="eager"
-          />
-        </div>
-      );
-    }
-
     if (logoType === 'book') {
       return (
         <svg
@@ -143,8 +129,18 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       );
     }
 
-    // Default: Elegant Islamic 8-Point Geometric Star Rosette
-    return <IslamicStarIcon className={cn('text-accent', sizeClasses.icon)} />;
+    // Default & Official Islamic Mihrab Logo Image
+    const src = logoImageUrl || '/logo.png';
+    return (
+      <div className="relative w-full h-full p-0.5 flex items-center justify-center">
+        <img
+          src={src}
+          alt={title}
+          className="w-full h-full object-contain"
+          loading="eager"
+        />
+      </div>
+    );
   };
 
   const content = (
@@ -160,9 +156,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       <div
         className={cn(
           sizeClasses.box,
-          logoType === 'image' || !logoType
-            ? 'bg-white shadow-subtle border border-accent/40 flex items-center justify-center overflow-hidden transition-transform group-hover:scale-105 shrink-0'
-            : 'bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-accent shadow-subtle border border-accent/40 transition-transform group-hover:scale-105 shrink-0'
+          'bg-white shadow-subtle border border-accent/40 flex items-center justify-center overflow-hidden transition-transform group-hover:scale-105 shrink-0'
         )}
       >
         {renderEmblem()}

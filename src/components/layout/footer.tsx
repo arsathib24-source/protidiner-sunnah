@@ -35,6 +35,8 @@ export const Footer: React.FC<FooterProps> = ({ locale, dict }) => {
             <BrandLogo
               locale={locale}
               title={dict.brand.name}
+              logoType="image"
+              logoImageUrl="/logo.png"
               size="sm"
               variant="footer"
               showTagline={false}
